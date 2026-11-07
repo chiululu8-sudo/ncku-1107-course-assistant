@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成大1107課堂 專屬語音討論AI助教</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --primary-light: #e8f0fe;
+            --secondary: #12b5cb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #f59e0b;
+            --accent-bg: #fef3c7;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 16px 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voice-selector-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 24px;
+            font-size: 0.85rem;
+        }
+
+        .voice-selector-box select {
+            background: white;
+            color: #1e293b;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 18px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 20px;
+            flex: 1;
+            width: 100%;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 側邊欄 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-item {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .audio-item-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        .audio-item audio {
+            width: 100%;
+            height: 32px;
+            outline: none;
+        }
+
+        .quick-topic {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quick-topic:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            transform: translateX(3px);
+        }
+
+        /* 主對話區 */
+        .chat-section {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            height: calc(100vh - 125px);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .teaching-mode-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ecfdf5;
+            color: #065f46;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 16px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 88%;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .assistant .avatar {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .user .avatar {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .bubble {
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .assistant .bubble {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            border-top-left-radius: 4px;
+        }
+
+        .user .bubble {
+            background: var(--primary);
+            color: white;
+            border-top-right-radius: 4px;
+        }
+
+        .bubble .quiz-box {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: #fffbeb;
+            border: 1.5px dashed #f59e0b;
+            border-radius: 10px;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .bubble .quiz-box-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            margin-bottom: 6px;
+            color: #b45309;
+        }
+
+        .play-voice-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .play-voice-btn:hover {
+            background: #bae6fd;
+        }
+
+        /* 底部語音控制條 */
+        .voice-controls {
+            padding: 16px 20px;
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mic-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            flex-shrink: 0;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.05);
+            background: #dc2626;
+        }
+
+        .mic-btn.recording {
+            animation: pulse 1.2s infinite;
+            background: #b91c1c;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .input-box {
+            flex: 1;
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 28px;
+            padding: 4px 8px 4px 18px;
+            align-items: center;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .input-box:focus-within {
+            border-color: var(--primary);
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .input-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            outline: none;
+            padding: 8px 0;
+            color: #1e293b;
+        }
+
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .stop-speak-btn {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .stop-speak-btn.active {
+            display: flex;
+        }
+
+        .status-bar {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>🎓 1107成大上課 專屬語音學習助教</h1>
+        </div>
+        
+        <div class="voice-selector-box">
+            <span>🎙️ 助教自然人聲：</span>
+            <select id="voiceSelect">
+                <option value="yunjhe" selected>👦 台灣沉穩男助教（雲哲，極推）</option>
+                <option value="hsiaochen">👧 台灣親切女助教（曉臻）</option>
+                <option value="hsiaoyu">👩 台灣知性女助教（曉雨）</option>
+                <option value="yunyang">🎙️ 專業財經播報員（雲揚）</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 左側：外出音訊與課堂快捷主題 -->
+        <div class="sidebar">
+            <div class="card">
+                <h2>📱 手機連線直接用</h2>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">手機連家中 Wi-Fi，用相機掃描下方 QR Code，手機即可直接開網頁聽重點與語音討論：</p>
+                <div style="text-align: center; margin: 8px 0;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://192.168.0.243:8080" alt="手機連線 QR Code" style="border-radius: 8px; border: 1px solid #cbd5e1; padding: 4px; background: white;">
+                    <div style="font-size: 0.78rem; color: #475569; margin-top: 4px; font-weight: 500;">
+                        或在手機瀏覽器輸入：<br><code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-size:0.82rem;">http://192.168.0.243:8080</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🎧 外出隨身聽（精華重點）</h2>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">已升級微軟神經自然人聲：</p>
+                
+                <div class="audio-item">
+                    <div class="audio-item-title">EP01 主力操盤思維與選股哲學</div>
+                    <audio controls src="../audio_summary/EP01_Main_Force_and_Stock_Selection.mp3"></audio>
+                </div>
+
+                <div class="audio-item">
+                    <div class="audio-item-title">EP02 三大指標與M1B熱錢動能</div>
+                    <audio controls src="../audio_summary/EP02_Three_Indicators_and_Liquidity.mp3"></audio>
+                </div>
+
+                <div class="audio-item">
+                    <div class="audio-item-title">EP03 台積電實戰與三大出場警訊</div>
+                    <audio controls src="../audio_summary/EP03_TSMC_Strategy_and_Exit_Rules.mp3"></audio>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚡ 課堂核心主題討論</h2>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">點擊直接向助教發問：</p>
+
+                <div class="quick-topic" onclick="askTopic('老師下午說的 M1B 與 M2 貨幣供給量的黃金交叉到底是什麼意思？')">
+                    <span>🪙 M1B/M2 黃金交叉解密</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('台積電面臨外資借券賣出時，本土資金跟散戶的操作心法是什麼？')">
+                    <span>📈 台積電籌碼與外資對作</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('景氣領先指標跟 PMI（採購經理人指數）要怎麼搭配看台股轉折點？')">
+                    <span>🧭 領先指標與 PMI 轉折判讀</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('老師說的保命出場三大警訊是什麼？跌破均線三天不站回要怎麼處理？')">
+                    <span>🛑 波段停利與保命三大警訊</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('在三高環境下，老師強調的月營收逐月增加和6%~7%高股息選股邏輯是什麼？')">
+                    <span>🛡️ 三高環境下的選股金律</span>
+                    <span>➔</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右側：語音討論區 -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <div class="teaching-mode-pill">
+                    <span>💡 助教教學規則：先生活化白話解說 ➔ 後出題測驗加深記憶</span>
+                </div>
+                <button class="stop-speak-btn" id="stopSpeakBtn" onclick="stopAudio()">
+                    <span>⏹️ 停止發聲 (打斷助教)</span>
+                </button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="avatar">👨‍🏫</div>
+                    <div class="bubble">
+                        哈囉！我是今天「成大1107總體經濟與主力操盤」課程的專屬 AI 助教！<br><br>
+                        我已經完整研讀了今天全天的 9 個錄音檔與講義。現在語音系統已經<strong>升級為微軟真人神經網路語音</strong>，徹底告別生硬刺耳的機器人聲！<br><br>
+                        我們的討論方式是：<strong>「我會先用最白話、生活化的方式為你解說觀念，說完後我會出一道課堂情境題目考考你，換你開口回答！」</strong><br><br>
+                        你可以直接點擊左側主題，或是<strong>按下方紅色的麥克風按鈕直接開口說話</strong>，我們馬上開始討論！
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-bar" id="speechStatus">
+                點擊麥克風即可開始說話，或在右邊直接輸入問題
+            </div>
+
+            <div class="voice-controls">
+                <button class="mic-btn" id="micBtn" title="點擊開始說話" onclick="toggleSpeechRecognition()">
+                    🎤
+                </button>
+
+                <div class="input-box">
+                    <input type="text" id="userInput" placeholder="開口說話或打字提問成大上課內容..." onkeydown="if(event.key==='Enter') sendMessage()">
+                    <button class="send-btn" onclick="sendMessage()">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 專用自然人聲播放器 -->
+    <audio id="ttsAudio" style="display: none;"></audio>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const micBtn = document.getElementById('micBtn');
+        const speechStatus = document.getElementById('speechStatus');
+        const stopSpeakBtn = document.getElementById('stopSpeakBtn');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const ttsAudio = document.getElementById('ttsAudio');
+
+        let isRecognizing = false;
+        let recognition = null;
+
+        // 初始化語音辨識（STT）
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'zh-TW';
+
+            recognition.onstart = function() {
+                isRecognizing = true;
+                micBtn.classList.add('recording');
+                speechStatus.innerText = "🎙️ 正在聆聽中... 請開口說話（講完會自動送出）";
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                userInput.value = transcript;
+                speechStatus.innerText = `辨識成功: "${transcript}"`;
+                sendMessage();
+            };
+
+            recognition.onerror = function(event) {
+                speechStatus.innerText = "語音辨識結束或未取得麥克風，請再試一次或手動打字。";
+                stopRecognition();
+            };
+
+            recognition.onend = function() {
+                stopRecognition();
+            };
+        } else {
+            speechStatus.innerText = "建議使用 Chrome 或 Edge 瀏覽器以獲得麥克風支援。";
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert("請使用 Chrome 或 Edge 瀏覽器開啟以使用麥克風！");
+                return;
+            }
+            if (isRecognizing) {
+                recognition.stop();
+                stopRecognition();
+            } else {
+                stopAudio(); // 若助教正在講話，立即打斷
+                recognition.start();
+            }
+        }
+
+        function stopRecognition() {
+            isRecognizing = false;
+            micBtn.classList.remove('recording');
+            speechStatus.innerText = "點擊麥克風即可開始說話，或在右邊直接輸入問題";
+        }
+
+        function askTopic(questionText) {
+            userInput.value = questionText;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            stopAudio(); // 打斷當前聲音
+            appendMessage('user', text);
+            userInput.value = '';
+
+            const loadingBubble = appendMessage('assistant', '助教正在對照成大課堂筆記並生成自然語音中...');
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        message: text,
+                        voice: voiceSelect.value
+                    })
+                });
+
+                const data = await response.json();
+                loadingBubble.remove();
+                
+                // 呈現回答與考題
+                appendAssistantReply(data.explanation, data.quiz, data.audio_url);
+
+                // 自動播放真人神經語音
+                if (data.audio_url) {
+                    playAudio(data.audio_url);
+                }
+
+            } catch (err) {
+                loadingBubble.innerHTML = '抱歉，與助教連線時出現問題，請確認後端服務是否已啟動。';
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            const avatar = sender === 'user' ? '👤' : '👨‍🏫';
+            msgDiv.innerHTML = `
+                <div class="avatar">${avatar}</div>
+                <div class="bubble">${text}</div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return msgDiv.querySelector('.bubble');
+        }
+
+        function appendAssistantReply(explanation, quiz, audioUrl) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message assistant';
+            msgDiv.innerHTML = `
+                <div class="avatar">👨‍🏫</div>
+                <div class="bubble">
+                    <div>${explanation.replace(/\n/g, '<br>')}</div>
+                    ${quiz ? `
+                        <div class="quiz-box">
+                            <div class="quiz-box-title">🎯 助教換我考考你（請直接開口回答或追問）：</div>
+                            <div>${quiz}</div>
+                        </div>
+                    ` : ''}
+                    ${audioUrl ? `
+                        <div>
+                            <button class="play-voice-btn" onclick="playAudio('${audioUrl}')">
+                                🔊 重新播放真人語音
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function playAudio(url) {
+            stopAudio();
+            ttsAudio.src = url;
+            ttsAudio.play().then(() => {
+                stopSpeakBtn.classList.add('active');
+            }).catch(e => {
+                console.log("自動播放需使用者互動:", e);
+            });
+        }
+
+        function stopAudio() {
+            ttsAudio.pause();
+            ttsAudio.currentTime = 0;
+            stopSpeakBtn.classList.remove('active');
+        }
+
+        ttsAudio.onended = function() {
+            stopSpeakBtn.classList.remove('active');
+        };
+
+        ttsAudio.onerror = function() {
+            stopSpeakBtn.classList.remove('active');
+        };
+    </script>
+</body>
+</html>

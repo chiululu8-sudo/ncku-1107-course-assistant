@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>成大1107課堂 專屬行動語音助教</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --primary-light: #e8f0fe;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 14px 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title h1 {
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .online-pill {
+            background: #10b981;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 16px;
+            flex: 1;
+            width: 100%;
+        }
+
+        @media (max-width: 820px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            margin-bottom: 14px;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .audio-item {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .audio-item-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #334155;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .audio-item audio {
+            width: 100%;
+            height: 36px;
+            outline: none;
+        }
+
+        .quick-topic {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quick-topic:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        /* 主對話區 */
+        .chat-section {
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            height: calc(100vh - 100px);
+            overflow: hidden;
+        }
+
+        @media (max-width: 820px) {
+            .chat-section {
+                height: 580px;
+            }
+        }
+
+        .chat-header {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .teaching-mode-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ecfdf5;
+            color: #065f46;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 14px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            max-width: 90%;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .assistant .avatar {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .user .avatar {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .bubble {
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .assistant .bubble {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            border-top-left-radius: 4px;
+        }
+
+        .user .bubble {
+            background: var(--primary);
+            color: white;
+            border-top-right-radius: 4px;
+        }
+
+        .bubble .quiz-box {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: #fffbeb;
+            border: 1.5px dashed #f59e0b;
+            border-radius: 10px;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        .bubble .quiz-box-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-bottom: 4px;
+            color: #b45309;
+        }
+
+        /* 底部語音控制條 */
+        .voice-controls {
+            padding: 12px 16px;
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mic-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            flex-shrink: 0;
+        }
+
+        .mic-btn.recording {
+            animation: pulse 1.2s infinite;
+            background: #b91c1c;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        .input-box {
+            flex: 1;
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 28px;
+            padding: 2px 6px 2px 16px;
+            align-items: center;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .input-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.92rem;
+            outline: none;
+            padding: 8px 0;
+            color: #1e293b;
+        }
+
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .status-bar {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            padding: 0 16px;
+        }
+
+        .app-link-btn {
+            display: block;
+            width: 100%;
+            background: #3b82f6;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .app-link-btn:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>🎓 成大1107課堂 行動助教</h1>
+        </div>
+        <div>
+            <span class="online-pill">雲端即時連線</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 側邊欄：隨身聽與主題 -->
+        <div class="sidebar">
+            <div class="card">
+                <h2>🎧 外出隨身聽（3 首重點精華）</h2>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 10px;">台灣真人助教（雲哲）朗讀，點擊播放即可隨身聽：</p>
+                
+                <div class="audio-item">
+                    <div class="audio-item-title">
+                        <span>EP01 主力操盤思維與選股哲學</span>
+                    </div>
+                    <audio controls preload="metadata" src="./audio_summary/EP01_Main_Force_and_Stock_Selection.mp3"></audio>
+                </div>
+
+                <div class="audio-item">
+                    <div class="audio-item-title">
+                        <span>EP02 三大指標與M1B熱錢動能</span>
+                    </div>
+                    <audio controls preload="metadata" src="./audio_summary/EP02_Three_Indicators_and_Liquidity.mp3"></audio>
+                </div>
+
+                <div class="audio-item">
+                    <div class="audio-item-title">
+                        <span>EP03 台積電實戰與三大出場警訊</span>
+                    </div>
+                    <audio controls preload="metadata" src="./audio_summary/EP03_TSMC_Strategy_and_Exit_Rules.mp3"></audio>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚡ 課堂核心主題（點擊發問）</h2>
+                <div class="quick-topic" onclick="askTopic('老師下午說的 M1B 與 M2 貨幣供給量的黃金交叉到底是什麼意思？')">
+                    <span>🪙 M1B/M2 黃金交叉解密</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('台積電面臨外資借券賣出時，本土資金跟散戶的操作心法是什麼？')">
+                    <span>📈 台積電籌碼與外資對作</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('景氣領先指標跟 PMI（採購經理人指數）要怎麼搭配看台股轉折點？')">
+                    <span>🧭 領先指標與 PMI 轉折判讀</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('老師說的保命出場三大警訊是什麼？跌破均線三天不站回要怎麼處理？')">
+                    <span>🛑 波段停利與保命三大警訊</span>
+                    <span>➔</span>
+                </div>
+
+                <div class="quick-topic" onclick="askTopic('在三高環境下，老師強調的月營收逐月增加和6%~7%高股息選股邏輯是什麼？')">
+                    <span>🛡️ 三高環境下的選股金律</span>
+                    <span>➔</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📱 外出手機通話討論（Gemini）</h2>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">外出在路上，您也可以直接打開手機 Gemini App 進行語音通話討論：</p>
+                <button class="app-link-btn" onclick="copyPromptForGemini()">📋 點我一鍵複製「隨身助教指令」</button>
+            </div>
+        </div>
+
+        <!-- 主對話區 -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <div class="teaching-mode-pill">
+                    <span>💡 助教教學規則：先白話解說 ➔ 後出題測驗</span>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message assistant">
+                    <div class="avatar">👨‍🏫</div>
+                    <div class="bubble">
+                        哈囉！我是今天「成大1107總體經濟與主力操盤」課程的專屬 AI 助教！<br><br>
+                        無論你在家或出門在外，打開這個 GitHub 網頁都能隨時聽 3 首重點，或是直接跟我討論！<br><br>
+                        討論規則依然是：<strong>「我會先用最白話生活化的方式為你解說，說完後我會出一道課堂題目考考你，換你回答！」</strong><br><br>
+                        你可以點擊左側主題，或是<strong>按下方麥克風開口說話</strong>，我們馬上開始！
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-bar" id="speechStatus">
+                點擊麥克風即可開始說話，或打字提問
+            </div>
+
+            <div class="voice-controls">
+                <button class="mic-btn" id="micBtn" title="點擊開始說話" onclick="toggleSpeechRecognition()">
+                    🎤
+                </button>
+
+                <div class="input-box">
+                    <input type="text" id="userInput" placeholder="開口說話或打字提問成大上課內容..." onkeydown="if(event.key==='Enter') sendMessage()">
+                    <button class="send-btn" onclick="sendMessage()">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const micBtn = document.getElementById('micBtn');
+        const speechStatus = document.getElementById('speechStatus');
+
+        let isRecognizing = false;
+        let recognition = null;
+
+        // 語音辨識（支援手機與電腦 Chrome / Safari / Edge）
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'zh-TW';
+
+            recognition.onstart = function() {
+                isRecognizing = true;
+                micBtn.classList.add('recording');
+                speechStatus.innerText = "🎙️ 正在聆聽中... 請說話";
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                userInput.value = transcript;
+                sendMessage();
+            };
+
+            recognition.onerror = function() {
+                stopRecognition();
+            };
+
+            recognition.onend = function() {
+                stopRecognition();
+            };
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert("若要在手機使用語音輸入，建議使用 Chrome 或 Safari 瀏覽器！");
+                return;
+            }
+            if (isRecognizing) {
+                recognition.stop();
+                stopRecognition();
+            } else {
+                recognition.start();
+            }
+        }
+
+        function stopRecognition() {
+            isRecognizing = false;
+            micBtn.classList.remove('recording');
+            speechStatus.innerText = "點擊麥克風即可開始說話，或打字提問";
+        }
+
+        function askTopic(text) {
+            userInput.value = text;
+            sendMessage();
+        }
+
+        // 雲端純前端知識庫回答邏輯（無伺服器，任何手機隨開即用）
+        function getCourseAnswer(userMsg) {
+            const msg = userMsg.toLowerCase();
+            
+            if (msg.includes("m1b") || msg.includes("m2") || msg.includes("貨幣") || msg.includes("黃金交叉") || msg.includes("死亡交叉")) {
+                return {
+                    explanation: "老師下午特別強調資金面，因為『有量才有價』！你可以把 M1B 想成是我們一般散戶隨時可以拿去買股票的『熱錢口袋』；而 M2 則是包含定存和外幣的『國家總資金池』。\n\n所謂的『黃金交叉』，就是大家發現定存利息太低、股市好賺，紛紛解約定存把錢移到活存衝進股市（M1B 年增率大於 M2 年增率）。這時市場活水氾濫，大盤就算遇到利空也容易『該回不回』直線上漲！反過來，如果是死亡交叉，資金流回定存，大盤動能就會受阻。",
+                    quiz: "那我考考你：如果下個月公布的央行數據顯示 M1B 向上突破 M2 形成黃金交叉，但是大盤卻因為美國政治消息連續急跌兩天，這時候依照主力思維，我們應該跟著做空，還是分批找買點？為什麼？"
+                };
+            } else if (msg.includes("台積電") || msg.includes("adr") || msg.includes("外資") || msg.includes("借券")) {
+                return {
+                    explanation: "課堂上老師特別剖析了台積電的籌碼大戰！外資常常趁美股大跌時，把台積電當成『提款機』大舉借券賣出、打壓股價；但是國內的投信和本土主力資金，知道台積電具備不可替代的 AI 護城河，會在低檔持續承接。\n\n主力心法是：當外資發現股價『怎麼打都打不下去』，而且每個月公布的『月營收』持續爆發成長時，外資放空的成本太高，最終被迫回頭『借券回補並轉為大買超』，直接帶動股價飆破新高！所以散戶千萬不要一次性買滿（All-in），要分成 3 到 5 次分批建倉。",
+                    quiz: "換我考考你：當外資在借券賣出台積電，但你發現台積電的『融資餘額已經洗盤近乎歸零』，而且守在關鍵的季線之上，這時通常代表什麼訊號？"
+                };
+            } else if (msg.includes("指標") || msg.includes("pmi") || msg.includes("領先指標") || msg.includes("轉折")) {
+                return {
+                    explanation: "判斷大盤轉折，老師教了絕配雙指標：景氣領先指標 ＋ PMI！領先指標口訣是：『領先預判未來看轉折，連續 3 個月同向即成勢』。\n\n而 PMI 以 50 為榮枯線，高於 50 擴張、低於 50 緊縮。實戰精髓在於：當台灣 PMI 維持在 60 以上熱絡區間，且領先指標持續向上，代表『基本面極其健康』！如果這時候大盤指數突然急跌跌破均線，這絕對不是基本面惡化，而是主力在藉由政治變數洗盤，反而是最好的分批承接時機！",
+                    quiz: "助教考考你：如果領先指標已經連續三個月往下掉，而且美國 ISM 製造業指數跌破多少數值時，老師提醒大家代表經濟進入嚴重衰退？"
+                };
+            } else if (msg.includes("停利") || msg.includes("出場") || msg.includes("均線") || msg.includes("三天") || msg.includes("警訊") || msg.includes("cpi") || msg.includes("gdp")) {
+                return {
+                    explanation: "老師常說：『指上富貴不如落袋為安』！三大保命與出場訊號：\n1. 技術面警訊：股價跌破月線或半年線，『連續三天無法站回』，代表趨勢轉弱，果斷停利落袋。\n2. 通膨爆表警訊：月度 CPI 突然飆破 4% 以上，代表通膨失控、聯準會將重啟暴力升息，主力會藉機打壓股市，必須果斷停利。\n3. 終極逃命點：美國 GDP 只要出現『單季負成長』，這代表硬著陸來臨，老師說此時要『跑得比飛的還快』，全面清倉！",
+                    quiz: "那考考你：如果你的持股目前獲利 30%，但今天突然跌破半年線，明天小漲、後天又跌，連續三天都站不回半年線，這時候你應該心存僥倖繼續抱著等反彈，還是執行紀律？"
+                };
+            } else if (msg.includes("三高") || msg.includes("高股息") || msg.includes("營收") || msg.includes("選股")) {
+                return {
+                    explanation: "面對現在『高利率、高通膨、高不確定性』的三高環境，選股千萬不要去碰沒有獲利支撐的本夢比投機股！\n老師傳授的選股兩大支柱：第一是看『月營收逐月增加』，因為 GDP 和財報每季才公布，月營收是散戶最及時的成長線索！第二是鎖定『6% 到 7% 以上高股息』，提供極佳的利差保護，抗跌又有穩定現金流！",
+                    quiz: "助教考考你：為什麼老師一再強調『月營收』比每季公布的『企業財報獲利』對散戶更有實戰價值？關鍵原因是什麼？"
+                };
+            } else if (msg.includes("做多") || msg.includes("買點") || msg.includes("分批") || msg.includes("主力") || msg.includes("42") || msg.includes("紀律") || msg.includes("賣") || msg.includes("停利")) {
+                return {
+                    explanation: "回答得太棒了！完全切中老師課堂的思維！\n你的觀念非常清晰：不被市場上的恐慌消息洗出場，懂得看籌碼沉澱（融資洗乾淨）與基本面保護，這就是標準的『主力操盤順向思維』！",
+                    quiz: "你掌握得很好！你還想深入了解哪一個部分？例如：FED 美聯準會的三大關鍵指標（非農就業、CPI、失業率4.5%軟著陸），還是想聽聽各國國債的風險分析？"
+                };
+            } else {
+                return {
+                    explanation: `收到你的提問！關於「${userMsg}」在今天的成大課堂中：\n老師的核心邏輯在於『個股漲跌受大盤限制，大盤受總體經濟牽引』。在操作時，我們必須同時搭配『領先指標看趨勢、M1B/M2看資金動能、均線與融資看籌碼洗盤』，並且嚴格執行『分批 3 到 5 次進場』與『三天不站回均線停利』。`,
+                    quiz: "那助教考考你：老師今天說的『科技產業的爸爸是誰』？為什麼我們看台股大盤，眼睛一定要盯著美國的總經數據？"
+                };
+            }
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            appendMessage('user', text);
+            userInput.value = '';
+
+            setTimeout(() => {
+                const ans = getCourseAnswer(text);
+                appendAssistantReply(ans.explanation, ans.quiz);
+            }, 300);
+        }
+
+        function appendMessage(sender, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${sender}`;
+            const avatar = sender === 'user' ? '👤' : '👨‍🏫';
+            msgDiv.innerHTML = `
+                <div class="avatar">${avatar}</div>
+                <div class="bubble">${text}</div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return msgDiv.querySelector('.bubble');
+        }
+
+        function appendAssistantReply(explanation, quiz) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message assistant';
+            msgDiv.innerHTML = `
+                <div class="avatar">👨‍🏫</div>
+                <div class="bubble">
+                    <div>${explanation.replace(/\n/g, '<br>')}</div>
+                    ${quiz ? `
+                        <div class="quiz-box">
+                            <div class="quiz-box-title">🎯 助教換我考考你（請直接回答）：</div>
+                            <div>${quiz}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function copyPromptForGemini() {
+            const prompt = `請扮演成大1107財經投資課程的專屬AI助教。請記住以下課程核心原則與我用語音討論：\n1. 核心觀念：個股漲跌受大盤限制，大盤受總經牽引。散戶不做空，順主力思維逢低分批承接、波段停利。\n2. 指標：領先指標連續3個月確認趨勢、PMI以50為榮枯線；M1B大於M2為黃金交叉熱錢湧入。\n3. 台積電：外資借券賣出打壓，本土低檔接，外資終將回補拉高。\n4. 停利出場三警訊：跌破均線連續3天不站回停利；月度CPI暴增超4%停利；美GDP單季負成長全面清倉逃命。\n5. 討論模式：先用生活化白話解釋我的問題，說完後出一道情境題目考考我！\n請先用親切的語氣向我問好，並問我想先討論哪一個指標。`;
+            navigator.clipboard.writeText(prompt).then(() => {
+                alert("已成功複製指令！您可以直接打開手機上的 Gemini App 或 ChatGPT App 貼上，戴上藍牙耳機即可開啟語音對話囉！");
+            });
+        }
+    </script>
+</body>
+</html>
