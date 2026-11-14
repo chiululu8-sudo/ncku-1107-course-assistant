@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>成大1107課堂 專屬行動語音助教</title>
+    <title>成大課堂 專屬行動語音學習助教 (1107 & 1114)</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -63,18 +63,45 @@
             font-weight: 600;
         }
 
+        /* 課堂分頁選單 Tab */
+        .course-tabs {
+            background: white;
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            padding: 0 16px;
+            gap: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
         .container {
-            max-width: 1080px;
+            max-width: 1120px;
             margin: 0 auto;
             padding: 14px;
             display: grid;
-            grid-template-columns: 340px 1fr;
+            grid-template-columns: 360px 1fr;
             gap: 16px;
             flex: 1;
             width: 100%;
         }
 
-        @media (max-width: 820px) {
+        @media (max-width: 860px) {
             .container {
                 grid-template-columns: 1fr;
                 padding: 10px;
@@ -103,17 +130,24 @@
             background: #f1f5f9;
             border-radius: 10px;
             padding: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             border: 1px solid #e2e8f0;
         }
 
         .audio-item-title {
             font-size: 0.88rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #334155;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1e3a8a;
             display: flex;
             justify-content: space-between;
+        }
+
+        .audio-desc {
+            font-size: 0.78rem;
+            color: #64748b;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
         .audio-item audio {
@@ -151,13 +185,13 @@
             border-radius: 14px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             border: 1px solid var(--border);
-            height: calc(100vh - 100px);
+            height: calc(100vh - 130px);
             overflow: hidden;
         }
 
-        @media (max-width: 820px) {
+        @media (max-width: 860px) {
             .chat-section {
-                height: 580px;
+                height: 560px;
             }
         }
 
@@ -272,7 +306,6 @@
             color: #b45309;
         }
 
-        /* 底部語音控制條 */
         .voice-controls {
             padding: 12px 16px;
             background: #ffffff;
@@ -360,10 +393,8 @@
             font-size: 0.85rem;
             font-weight: 600;
             margin-top: 8px;
-        }
-
-        .app-link-btn:hover {
-            background: #2563eb;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -371,74 +402,126 @@
 
     <header>
         <div class="header-title">
-            <h1>🎓 成大1107課堂 行動助教</h1>
+            <h1>🎓 成大投資實戰 行動隨身助教</h1>
         </div>
         <div>
             <span class="online-pill">雲端即時連線</span>
         </div>
     </header>
 
+    <!-- 課堂切換分頁 -->
+    <div class="course-tabs">
+        <button class="tab-btn active" id="tab1114" onclick="switchCourse('1114')">✨ 1114 股票風險管理與財務選股 (最新深度大課)</button>
+        <button class="tab-btn" id="tab1107" onclick="switchCourse('1107')">📚 1107 總體經濟與主力操盤</button>
+    </div>
+
     <div class="container">
-        <!-- 側邊欄：隨身聽與主題 -->
+        <!-- 側邊欄：音訊播放與主題 -->
         <div class="sidebar">
-            <div class="card">
-                <h2>🎧 外出隨身聽（3 首重點精華）</h2>
-                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 10px;">台灣真人助教（雲哲）朗讀，點擊播放即可隨身聽：</p>
+            <!-- 1114 音訊清單 -->
+            <div id="audioSection1114" class="card">
+                <h2>🎧 1114 外出隨身聽（每集 15~18 分鐘）</h2>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">台灣真人助教（雲哲）長篇深度完整講解：</p>
                 
                 <div class="audio-item">
                     <div class="audio-item-title">
-                        <span>EP01 主力操盤思維與選股哲學</span>
+                        <span>EP01 核心投資思維與三大財務指標</span>
+                        <span style="font-size: 0.75rem; color: #f59e0b;">⏳ 約 16 分鐘</span>
                     </div>
+                    <div class="audio-desc">2027資本支出峰值、大跌20%送分題、ROE負債陷阱、毛利率定價權、資本支出率良性擴張</div>
+                    <audio controls preload="metadata" src="./audio_summary/1114_EP01_Investment_Mindset_and_Financial_Metrics.mp3"></audio>
+                </div>
+
+                <div class="audio-item">
+                    <div class="audio-item-title">
+                        <span>EP02 三大趨勢產業與個股地雷避坑</span>
+                        <span style="font-size: 0.75rem; color: #f59e0b;">⏳ 約 16 分鐘</span>
+                    </div>
+                    <div class="audio-desc">ESG公司治理G賺錢效應、AI吃電怪獸與國泰基建基金、台積電本益比區間、川湖/基亞/宏達電實戰對照</div>
+                    <audio controls preload="metadata" src="./audio_summary/1114_EP02_Trends_Industries_and_Case_Studies.mp3"></audio>
+                </div>
+            </div>
+
+            <!-- 1107 音訊清單 -->
+            <div id="audioSection1107" class="card" style="display: none;">
+                <h2>🎧 1107 外出隨身聽</h2>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">總體經濟與資金面核心觀念：</p>
+                
+                <div class="audio-item">
+                    <div class="audio-item-title">EP01 主力操盤思維與選股哲學</div>
                     <audio controls preload="metadata" src="./audio_summary/EP01_Main_Force_and_Stock_Selection.mp3"></audio>
                 </div>
 
                 <div class="audio-item">
-                    <div class="audio-item-title">
-                        <span>EP02 三大指標與M1B熱錢動能</span>
-                    </div>
+                    <div class="audio-item-title">EP02 三大指標與M1B熱錢動能</div>
                     <audio controls preload="metadata" src="./audio_summary/EP02_Three_Indicators_and_Liquidity.mp3"></audio>
                 </div>
 
                 <div class="audio-item">
-                    <div class="audio-item-title">
-                        <span>EP03 台積電實戰與三大出場警訊</span>
-                    </div>
+                    <div class="audio-item-title">EP03 台積電實戰與三大出場警訊</div>
                     <audio controls preload="metadata" src="./audio_summary/EP03_TSMC_Strategy_and_Exit_Rules.mp3"></audio>
                 </div>
             </div>
 
+            <!-- 快速提問卡 -->
             <div class="card">
                 <h2>⚡ 課堂核心主題（點擊發問）</h2>
-                <div class="quick-topic" onclick="askTopic('老師下午說的 M1B 與 M2 貨幣供給量的黃金交叉到底是什麼意思？')">
-                    <span>🪙 M1B/M2 黃金交叉解密</span>
-                    <span>➔</span>
+                
+                <div id="topics1114">
+                    <div class="quick-topic" onclick="askTopic('老師說的 2027 年 AI 資本支出峰值年跟結構分化是什麼意思？為什麼不能追高？')">
+                        <span>🏔️ 2027 AI 資本支出峰值年</span>
+                        <span>➔</span>
+                    </div>
+
+                    <div class="quick-topic" onclick="askTopic('如何避開 ROE 的高負債陷阱？毛利率大於 40% 的定價權是怎麼回事？')">
+                        <span>📊 ROE 負債陷阱與毛利定價權</span>
+                        <span>➔</span>
+                    </div>
+
+                    <div class="quick-topic" onclick="askTopic('資本支出率（CapEx）怎麼算？川湖只有 9% 算不算良性擴張？星宇航空有何警訊？')">
+                        <span>🏗️ 資本支出率良性擴張判定</span>
+                        <span>➔</span>
+                    </div>
+
+                    <div class="quick-topic" onclick="askTopic('為什麼老師說大盤跌破 20% 是超級送分題？定期定額切三旬是怎麼操作的？')">
+                        <span>🎁 跌破 20% 送分題與切三旬</span>
+                        <span>➔</span>
+                    </div>
+
+                    <div class="quick-topic" onclick="askTopic('老師提醒的地雷股五大特徵與散戶三大致命虧損是什麼？')">
+                        <span>🛑 地雷股五大特徵與避坑心法</span>
+                        <span>➔</span>
+                    </div>
                 </div>
 
-                <div class="quick-topic" onclick="askTopic('台積電面臨外資借券賣出時，本土資金跟散戶的操作心法是什麼？')">
-                    <span>📈 台積電籌碼與外資對作</span>
-                    <span>➔</span>
-                </div>
+                <div id="topics1107" style="display: none;">
+                    <div class="quick-topic" onclick="askTopic('老師下午說的 M1B 與 M2 貨幣供給量的黃金交叉到底是什麼意思？')">
+                        <span>🪙 M1B/M2 黃金交叉解密</span>
+                        <span>➔</span>
+                    </div>
 
-                <div class="quick-topic" onclick="askTopic('景氣領先指標跟 PMI（採購經理人指數）要怎麼搭配看台股轉折點？')">
-                    <span>🧭 領先指標與 PMI 轉折判讀</span>
-                    <span>➔</span>
-                </div>
+                    <div class="quick-topic" onclick="askTopic('台積電面臨外資借券賣出時，本土資金跟散戶的操作心法是什麼？')">
+                        <span>📈 台積電籌碼與外資對作</span>
+                        <span>➔</span>
+                    </div>
 
-                <div class="quick-topic" onclick="askTopic('老師說的保命出場三大警訊是什麼？跌破均線三天不站回要怎麼處理？')">
-                    <span>🛑 波段停利與保命三大警訊</span>
-                    <span>➔</span>
-                </div>
+                    <div class="quick-topic" onclick="askTopic('景氣領先指標跟 PMI（採購經理人指數）要怎麼搭配看台股轉折點？')">
+                        <span>🧭 領先指標與 PMI 轉折判讀</span>
+                        <span>➔</span>
+                    </div>
 
-                <div class="quick-topic" onclick="askTopic('在三高環境下，老師強調的月營收逐月增加和6%~7%高股息選股邏輯是什麼？')">
-                    <span>🛡️ 三高環境下的選股金律</span>
-                    <span>➔</span>
+                    <div class="quick-topic" onclick="askTopic('老師說的保命出場三大警訊是什麼？跌破均線三天不站回要怎麼處理？')">
+                        <span>🛑 波段停利與保命三大警訊</span>
+                        <span>➔</span>
+                    </div>
                 </div>
             </div>
 
+            <!-- Gemini 語音連線 -->
             <div class="card">
-                <h2>📱 外出手機通話討論（Gemini）</h2>
-                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">外出在路上，您也可以直接打開手機 Gemini App 進行語音通話討論：</p>
-                <button class="app-link-btn" onclick="copyPromptForGemini()">📋 點我一鍵複製「隨身助教指令」</button>
+                <h2>📱 外出手機通話對話（Gemini App）</h2>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">外出路上想跟手機像打電話一樣隨意語音討論：</p>
+                <button class="app-link-btn" onclick="copyPromptForGemini()">📋 點我一鍵複製「1114+1107 全能助教指令」</button>
             </div>
         </div>
 
@@ -446,7 +529,7 @@
         <div class="chat-section">
             <div class="chat-header">
                 <div class="teaching-mode-pill">
-                    <span>💡 助教教學規則：先白話解說 ➔ 後出題測驗</span>
+                    <span>💡 助教教學規則：先白話解說 ➔ 後出題測驗加深記憶</span>
                 </div>
             </div>
 
@@ -454,10 +537,11 @@
                 <div class="message assistant">
                     <div class="avatar">👨‍🏫</div>
                     <div class="bubble">
-                        哈囉！我是今天「成大1107總體經濟與主力操盤」課程的專屬 AI 助教！<br><br>
-                        無論你在家或出門在外，打開這個 GitHub 網頁都能隨時聽 3 首重點，或是直接跟我討論！<br><br>
-                        討論規則依然是：<strong>「我會先用最白話生活化的方式為你解說，說完後我會出一道課堂題目考考你，換你回答！」</strong><br><br>
-                        你可以點擊左側主題，或是<strong>按下方麥克風開口說話</strong>，我們馬上開始！
+                        哈囉！我是成大課程專屬的 AI 助教雲哲！<br><br>
+                        我已經完整研讀了今天 <strong>1114 最新全天課程</strong>（包含 9 個錄音檔與講義），同時也整合了上週 <strong>1107 的核心內容</strong>！<br><br>
+                        左側我為你準備了<strong>兩大集長達 15~18 分鐘的深度語音大課</strong>，出門戴上耳機就能徹底聽懂！<br><br>
+                        我們的討論依然堅持：<strong>「我會先用最白話的生活比喻為你解說，說完後出一道情境題目考考你，換你回答！」</strong><br><br>
+                        你可以直接點擊左側主題，或是按下方麥克風開口說話，我們馬上開始！
                     </div>
                 </div>
             </div>
@@ -472,7 +556,7 @@
                 </button>
 
                 <div class="input-box">
-                    <input type="text" id="userInput" placeholder="開口說話或打字提問成大上課內容..." onkeydown="if(event.key==='Enter') sendMessage()">
+                    <input type="text" id="userInput" placeholder="開口說話或打字提問成大課程內容..." onkeydown="if(event.key==='Enter') sendMessage()">
                     <button class="send-btn" onclick="sendMessage()">送出</button>
                 </div>
             </div>
@@ -480,15 +564,27 @@
     </div>
 
     <script>
+        let currentCourse = "1114";
         const chatMessages = document.getElementById('chatMessages');
         const userInput = document.getElementById('userInput');
         const micBtn = document.getElementById('micBtn');
         const speechStatus = document.getElementById('speechStatus');
 
+        function switchCourse(courseId) {
+            currentCourse = courseId;
+            document.getElementById('tab1114').classList.toggle('active', courseId === '1114');
+            document.getElementById('tab1107').classList.toggle('active', courseId === '1107');
+
+            document.getElementById('audioSection1114').style.display = courseId === '1114' ? 'block' : 'none';
+            document.getElementById('audioSection1107').style.display = courseId === '1107' ? 'block' : 'none';
+
+            document.getElementById('topics1114').style.display = courseId === '1114' ? 'block' : 'none';
+            document.getElementById('topics1107').style.display = courseId === '1107' ? 'block' : 'none';
+        }
+
         let isRecognizing = false;
         let recognition = null;
 
-        // 語音辨識（支援手機與電腦 Chrome / Safari / Edge）
         if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
@@ -541,44 +637,71 @@
             sendMessage();
         }
 
-        // 雲端純前端知識庫回答邏輯（無伺服器，任何手機隨開即用）
+        // 整合 1107 與 1114 之全能知識庫回答引擎（先說後考）
         function getCourseAnswer(userMsg) {
             const msg = userMsg.toLowerCase();
             
-            if (msg.includes("m1b") || msg.includes("m2") || msg.includes("貨幣") || msg.includes("黃金交叉") || msg.includes("死亡交叉")) {
+            // 1114 主題：2027 峰值與結構分化
+            if (msg.includes("2027") || msg.includes("峰值") || msg.includes("結構分化") || msg.includes("追高")) {
                 return {
-                    explanation: "老師下午特別強調資金面，因為『有量才有價』！你可以把 M1B 想成是我們一般散戶隨時可以拿去買股票的『熱錢口袋』；而 M2 則是包含定存和外幣的『國家總資金池』。\n\n所謂的『黃金交叉』，就是大家發現定存利息太低、股市好賺，紛紛解約定存把錢移到活存衝進股市（M1B 年增率大於 M2 年增率）。這時市場活水氾濫，大盤就算遇到利空也容易『該回不回』直線上漲！反過來，如果是死亡交叉，資金流回定存，大盤動能就會受阻。",
-                    quiz: "那我考考你：如果下個月公布的央行數據顯示 M1B 向上突破 M2 形成黃金交叉，但是大盤卻因為美國政治消息連續急跌兩天，這時候依照主力思維，我們應該跟著做空，還是分批找買點？為什麼？"
+                    explanation: "老師在 1114 課堂上給出非常明確的預警：\n2027 年是全球四大雲端廠商（微軟、Google、亞馬遜、Meta）AI 資本支出的『峰值年』，總支出將衝上 1.1 兆到 1.47 兆美元的高峰，到了 2028 年增速就會急遽放緩！\n這意味著過去兩年『只要沾到 AI 題材、風口上的豬都能飛』的盲目普漲時代宣告結束，轉為嚴格的『結構分化』！\n市場會開始拿放大鏡檢驗企業到底能不能把 AI 轉化為實質營收與獲利。如果營收沒有逐月創高，隨時會被主力當成藉口大幅打壓股價。因此絕不能隨意追高，必須挑選具備強大技術壁壘與實打實現金流的龍頭！",
+                    quiz: "那我考考你：既然 2027 年資本支出達到頂峰、後續增速放緩，如果現在有一檔沒有實質獲利的投機 AI 概念股，股價被炒到本益比 40 倍，依老師的思維，我們應該追進去期待它再翻倍，還是保持距離？為什麼？"
                 };
-            } else if (msg.includes("台積電") || msg.includes("adr") || msg.includes("外資") || msg.includes("借券")) {
+            }
+            // 1114 主題：ROE 負債陷阱與毛利率定價權
+            else if (msg.includes("roe") || msg.includes("毛利") || msg.includes("定價權") || msg.includes("蘋果")) {
                 return {
-                    explanation: "課堂上老師特別剖析了台積電的籌碼大戰！外資常常趁美股大跌時，把台積電當成『提款機』大舉借券賣出、打壓股價；但是國內的投信和本土主力資金，知道台積電具備不可替代的 AI 護城河，會在低檔持續承接。\n\n主力心法是：當外資發現股價『怎麼打都打不下去』，而且每個月公布的『月營收』持續爆發成長時，外資放空的成本太高，最終被迫回頭『借券回補並轉為大買超』，直接帶動股價飆破新高！所以散戶千萬不要一次性買滿（All-in），要分成 3 到 5 次分批建倉。",
-                    quiz: "換我考考你：當外資在借券賣出台積電，但你發現台積電的『融資餘額已經洗盤近乎歸零』，而且守在關鍵的季線之上，這時通常代表什麼訊號？"
+                    explanation: "這堂課老師把 ROE 跟毛利率講得極為透徹！\nROE（股東權益報酬率）門檻一般在 10% 到 15% 以上，但千萬要小心『高負債衝高 ROE 的陷阱』！因為資產等於負債加股東權益，如果一家公司到處借大錢把負債拉到極致，分母的股東權益縮小，即使獲利平平，帳面 ROE 也會被虛增衝高！所以必須嚴格要求『負債比率近三年小於 30%，且每股自由現金流連五年大於 0』。\n\n至於毛利率，則象徵『產品的核心競爭力與市場定價權』！毛利扣除水電、薪資、租金等管銷開銷，才是真正的營業利潤。像蘋果手機一台成本 5,000 元能賣 40,000 元，毛利率超過 40%，就算通膨原物料漲價，它依然有暴利保護；反觀毛利薄的代工廠遇到通膨就會被侵蝕殆盡！",
+                    quiz: "換我考考你：如果兩家公司 ROE 都是 20%，但 A 公司毛利率 45%、負債比 25%；B 公司毛利率 8%、負債比 70%，依照課堂上的選股原則，哪一家才是真正具備抗風險護城河的優質核心企業？"
                 };
-            } else if (msg.includes("指標") || msg.includes("pmi") || msg.includes("領先指標") || msg.includes("轉折")) {
+            }
+            // 1114 主題：資本支出率良性擴張
+            else if (msg.includes("資本支出") || msg.includes("capex") || msg.includes("川湖") || msg.includes("星宇")) {
                 return {
-                    explanation: "判斷大盤轉折，老師教了絕配雙指標：景氣領先指標 ＋ PMI！領先指標口訣是：『領先預判未來看轉折，連續 3 個月同向即成勢』。\n\n而 PMI 以 50 為榮枯線，高於 50 擴張、低於 50 緊縮。實戰精髓在於：當台灣 PMI 維持在 60 以上熱絡區間，且領先指標持續向上，代表『基本面極其健康』！如果這時候大盤指數突然急跌跌破均線，這絕對不是基本面惡化，而是主力在藉由政治變數洗盤，反而是最好的分批承接時機！",
-                    quiz: "助教考考你：如果領先指標已經連續三個月往下掉，而且美國 ISM 製造業指數跌破多少數值時，老師提醒大家代表經濟進入嚴重衰退？"
+                    explanation: "資本支出率是『近四季資本支出之和除以近四季營業現金流量之和』，是用來判斷企業是『良性擴張』還是『盲目燒錢』的照妖鏡！\n標準區間：\n1. 30%～90%：屬於健康的良性擴張，營收現金充沛、穩健建廠購置設備。\n2. 小於 30%：代表成熟型或已經是全球寡占第一名！例如伺服器導軌龍頭川湖，因為本業營運現金流太龐大，算出來資本支出率僅約 9%，產能已經足以吃下全球大半市場且坐收現金！\n3. 大於 80%～90% 甚至超過 120%：這是嚴重的過度擴張地雷警訊！一旦景氣反轉或客戶砍單，後續將面臨龐大的資產折舊提列重壓，甚至資金斷鏈（就像星宇航空初期大買新機面臨沉重折舊一樣）。",
+                    quiz: "助教考考你：如果一家科技新創公司為了追逐熱門題材，連續兩年大肆借債擴廠，資本支出率飆到 150%，但客戶下季突然傳出砍單，這家公司財務報表會立即面臨什麼致命打擊？"
                 };
-            } else if (msg.includes("停利") || msg.includes("出場") || msg.includes("均線") || msg.includes("三天") || msg.includes("警訊") || msg.includes("cpi") || msg.includes("gdp")) {
+            }
+            // 1114 主題：大跌 20% 送分題與定期定額切三旬
+            else if (msg.includes("送分題") || msg.includes("大跌") || msg.includes("三旬") || msg.includes("拆單") || msg.includes("現金")) {
                 return {
-                    explanation: "老師常說：『指上富貴不如落袋為安』！三大保命與出場訊號：\n1. 技術面警訊：股價跌破月線或半年線，『連續三天無法站回』，代表趨勢轉弱，果斷停利落袋。\n2. 通膨爆表警訊：月度 CPI 突然飆破 4% 以上，代表通膨失控、聯準會將重啟暴力升息，主力會藉機打壓股市，必須果斷停利。\n3. 終極逃命點：美國 GDP 只要出現『單季負成長』，這代表硬著陸來臨，老師說此時要『跑得比飛的還快』，全面清倉！",
-                    quiz: "那考考你：如果你的持股目前獲利 30%，但今天突然跌破半年線，明天小漲、後天又跌，連續三天都站不回半年線，這時候你應該心存僥倖繼續抱著等反彈，還是執行紀律？"
+                    explanation: "這就是老師最精髓的資金管理大局觀！\n老師定義：『指數跌幅超過 10% 叫大跌，而跌幅超過 20%，則是市場非理性恐慌送給你的超級送分題！』\n平日如果把資金全部買滿，大跌 20% 時你就沒有子彈抄底。老師的大資產都在核心穩健部位，進出波段只動用 70～80 萬，月賺 3 萬就落袋。\n而定期定額的『拆單切三旬法』：每月 12,000 元不要單一天扣款，而是拆成 1～10 號扣 4,000、11～20 號扣 4,000、21～30 號扣 4,000，透過初旬、中旬、下旬的平滑分散，能杜絕單一時點買在高檔的風險！",
+                    quiz: "那我考考你：當大盤突然因為非基本面的國際政治恐慌，一個月內暴跌了 22%，此時身邊親友一片哀嚎，依老師的思維，我們平時保留的現金子彈這時候應該怎麼運用？"
                 };
-            } else if (msg.includes("三高") || msg.includes("高股息") || msg.includes("營收") || msg.includes("選股")) {
+            }
+            // 1114 主題：地雷股與避坑
+            else if (msg.includes("地雷") || msg.includes("盲點") || msg.includes("基亞") || msg.includes("矽力") || msg.includes("董監")) {
                 return {
-                    explanation: "面對現在『高利率、高通膨、高不確定性』的三高環境，選股千萬不要去碰沒有獲利支撐的本夢比投機股！\n老師傳授的選股兩大支柱：第一是看『月營收逐月增加』，因為 GDP 和財報每季才公布，月營收是散戶最及時的成長線索！第二是鎖定『6% 到 7% 以上高股息』，提供極佳的利差保護，抗跌又有穩定現金流！",
-                    quiz: "助教考考你：為什麼老師一再強調『月營收』比每季公布的『企業財報獲利』對散戶更有實戰價值？關鍵原因是什麼？"
+                    explanation: "老師歸納的地雷股五大特徵與散戶盲點，一定要刻在腦海裡：\n1. 董監事與高階經營層異常大量拋售自家持股（最凶險逃命訊號，散戶跑得要比大股東快）！\n2. 連續五年每股自由現金流為負值（$<0$），本業無法造血。\n3. 資本支出率暴增超過 120%，過度盲目擴張引發折舊重壓。\n4. 營收年增率連續下滑死亡交叉。\n5. 常年無獲利全憑本夢比炒作，殖利率近乎 0（如矽力-KY 拆分後暴跌、基亞連吞 17 根跌停）！\n散戶最忌諱：高檔盲目追高妄想賣在最高點、濫用融資槓桿凹單、以及跌深時被恐懼支配不敢進場！",
+                    quiz: "考考你：如果你手上的股票技術面漲不動，同時重訊公布董事長和總經理申報大量轉讓持股賣出，這時候你應該心存僥倖等反彈，還是立刻執行停利離場？"
                 };
-            } else if (msg.includes("做多") || msg.includes("買點") || msg.includes("分批") || msg.includes("主力") || msg.includes("42") || msg.includes("紀律") || msg.includes("賣") || msg.includes("停利")) {
+            }
+            // 1107 主題：M1B 與 M2 貨幣供給
+            else if (msg.includes("m1b") || msg.includes("m2") || msg.includes("黃金交叉") || msg.includes("死亡交叉")) {
                 return {
-                    explanation: "回答得太棒了！完全切中老師課堂的思維！\n你的觀念非常清晰：不被市場上的恐慌消息洗出場，懂得看籌碼沉澱（融資洗乾淨）與基本面保護，這就是標準的『主力操盤順向思維』！",
-                    quiz: "你掌握得很好！你還想深入了解哪一個部分？例如：FED 美聯準會的三大關鍵指標（非農就業、CPI、失業率4.5%軟著陸），還是想聽聽各國國債的風險分析？"
+                    explanation: "1107 課堂老師特別強調資金面，因為『有量才有價』！\n你可以把 M1B 想成是我們一般散戶隨時可以拿去買股票的『熱錢口袋』；而 M2 則是包含定存和外幣的『國家總資金池』。\n所謂的『黃金交叉』，就是大家發現定存利息太低、股市好賺，紛紛解約定存把錢移到活存衝進股市（M1B 年增率大於 M2 年增率）。這時市場活水氾濫，大盤就算遇到利空也容易『該回不回』直線上漲！反之死亡交叉資金流回定存，動能受阻。",
+                    quiz: "那我考考你：如果 M1B 向上突破 M2 形成黃金交叉，但是大盤卻因為政治消息急跌兩天，這時候依照主力思維，我們應該跟著做空，還是分批找買點？為什麼？"
                 };
-            } else {
+            }
+            // 1107 主題：台積電 ADR 與外資借券對作
+            else if (msg.includes("台積電") || msg.includes("adr") || msg.includes("借券") || msg.includes("888")) {
                 return {
-                    explanation: `收到你的提問！關於「${userMsg}」在今天的成大課堂中：\n老師的核心邏輯在於『個股漲跌受大盤限制，大盤受總體經濟牽引』。在操作時，我們必須同時搭配『領先指標看趨勢、M1B/M2看資金動能、均線與融資看籌碼洗盤』，並且嚴格執行『分批 3 到 5 次進場』與『三天不站回均線停利』。`,
-                    quiz: "那助教考考你：老師今天說的『科技產業的爸爸是誰』？為什麼我們看台股大盤，眼睛一定要盯著美國的總經數據？"
+                    explanation: "在台積電操作上，老師剖析了外資與本土主力的籌碼對作！\n外資常趁美股大跌時，把台積電當提款機大舉借券賣出；但本土投信知道台積電具備不可替代的 AI 護城河，會在低檔持續承接。當外資發現股價打不下去、且月營收持續創高時，外資放空成本過高，最終被迫回頭回補空單並轉為大買超，推升股價創高！\n本益比 20～25 倍是送分題，25～30 倍合理，30～35 倍過熱；盤面若見 888、999 等吉利數字買盤且跌深時，常是波段好買點！",
+                    quiz: "換我考考你：如果台積電因為國際利空急跌，本益比修正到 22 倍，同時盤面出現主力承接的吉利密碼，這時候依老師的評價區間，應該恐慌拋售還是分批建倉？"
+                };
+            }
+            // 回答考題回饋
+            else if (msg.includes("分批") || msg.includes("買點") || msg.includes("做多") || msg.includes("a公司") || msg.includes("跑") || msg.includes("停利") || msg.includes("送分題") || msg.includes("折舊")) {
+                return {
+                    explanation: "回答得太漂亮了！完全切中老師課堂傳授的思維！\n你的觀念非常清晰：懂得看籌碼沉澱、毛利定價權與本業現金流，這就是標準的法人順向操盤邏輯！",
+                    quiz: "你吸收得非常好！你還想深入了解哪一個主題？例如：綠色基礎建設與 AI 吃電怪獸、生技醫療熟齡經濟，還是想聽聽散熱龍頭奇鋐或交換器智邦的佈局邏輯？"
+                };
+            }
+            // 預設通用回答
+            else {
+                return {
+                    explanation: `收到你的提問！關於「${userMsg}」在成大課堂中：\n老師的核心邏輯在於『個股漲跌受大盤限制，大盤受總經牽引』，而在選股上必須搭配『近一年毛利率大於 40% 的定價權、資本支出率 30%～90% 良性擴張、負債比小於 30%』，並落實『大跌 20% 送分題進場、大股東賣股跑得比大股東快』的嚴格紀律。`,
+                    quiz: "那助教考考你：老師強調在三高環境下，為什麼『高產品毛利率』與『強勁營業現金流』比單純看 ROE 對散戶更有實戰防禦價值？"
                 };
             }
         }
@@ -629,7 +752,7 @@
         }
 
         function copyPromptForGemini() {
-            const prompt = `請扮演成大1107財經投資課程的專屬AI助教。請記住以下課程核心原則與我用語音討論：\n1. 核心觀念：個股漲跌受大盤限制，大盤受總經牽引。散戶不做空，順主力思維逢低分批承接、波段停利。\n2. 指標：領先指標連續3個月確認趨勢、PMI以50為榮枯線；M1B大於M2為黃金交叉熱錢湧入。\n3. 台積電：外資借券賣出打壓，本土低檔接，外資終將回補拉高。\n4. 停利出場三警訊：跌破均線連續3天不站回停利；月度CPI暴增超4%停利；美GDP單季負成長全面清倉逃命。\n5. 討論模式：先用生活化白話解釋我的問題，說完後出一道情境題目考考我！\n請先用親切的語氣向我問好，並問我想先討論哪一個指標。`;
+            const prompt = `請扮演成大投資實戰課程（1107與1114）專屬AI助教。請記住以下全套課程精髓與我用語音對話：\n1. 宏觀與資產配置：2027年為AI資本支出峰值年，從普漲走向結構分化；大盤跌破20%是超級送分題；定期定額切三旬分散法；核心資產防禦，波段金70~80萬月賺3萬落袋。\n2. 財務選股指標：ROE避開高負債陷阱（負債比<30%、自由現金流5年>0）；近一年毛利率>40%具定價權（蘋果vs代工）；資本支出率30%~90%為良性擴張（川湖9%獨占高現金流、星宇航空折舊重壓警訊）。\n3. 趨勢產業：ESG公司治理(G)推升力最強；AI吃電怪獸與供電三件套（國泰全球基建基金Beta 0.14）；熟齡經濟生技醫療。\n4. 個股與避坑：台積電本益比20~25倍送分題；基亞連17跌停無獲利本夢比地雷；大股東董監大賣持股跑得比大股東快；絕對嚴禁融資。\n5. 互動原則：先用生活化白話解釋我的問題，說完後出一道課堂情境題目考考我！\n請先用親切的語氣向我問好，並問我想先討論1114最新內容還是1107總經！`;
             navigator.clipboard.writeText(prompt).then(() => {
                 alert("已成功複製指令！您可以直接打開手機上的 Gemini App 或 ChatGPT App 貼上，戴上藍牙耳機即可開啟語音對話囉！");
             });
