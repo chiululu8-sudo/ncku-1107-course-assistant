@@ -1385,22 +1385,29 @@
                 <!-- 篩選條件控制列 -->
                 <div class="screener-filter-bar">
                     <div class="preset-btns-row">
-                        <button class="preset-filter-btn active" onclick="applyScreenerPreset('all', this)">📋 全部真實財報股 (36檔)</button>
+                        <button class="preset-filter-btn active" onclick="applyScreenerPreset('etf_all', this)">🏛️ 各大 ETF 核心成分股總池 (0050/00692/高股息精選 100+檔)</button>
+                        <button class="preset-filter-btn" onclick="applyScreenerPreset('all_market', this)">🌐 全台灣上市櫃 2,333 檔全市場尋寶</button>
                         <button class="preset-filter-btn" onclick="applyScreenerPreset('teacher_strict', this)">🏆 老師嚴格高毛利擴廠好股 (毛利≥40% + ROE≥15% + 資本支出/股本≥40%)</button>
                         <button class="preset-filter-btn" onclick="applyScreenerPreset('high_gm_roe', this)">💎 高毛利護城河 (毛利≥40% + ROE≥15% + 負債≤50%)</button>
                         <button class="preset-filter-btn" onclick="applyScreenerPreset('undervalued', this)">💰 現價低於合理價 (被錯殺便宜/合理區好股)</button>
-                        <button class="preset-filter-btn" onclick="applyScreenerPreset('etf_cycle', this)">🌊 高股息 ETF / ESG 00692 / 景氣循環股</button>
+                        <button class="preset-filter-btn" onclick="applyScreenerPreset('class_core', this)">👨‍🏫 課堂重點示範與高股息 ETF (36檔)</button>
                         <button class="preset-filter-btn" onclick="applyScreenerPreset('eliminated', this)">⚠️ 課堂點名淘汰與對照教材 (創見/振樺電/光聖/基亞/宏達電)</button>
                     </div>
 
-                    <div class="checkbox-filters-row">
-                        <span style="font-weight:800; color:#38bdf8;">自由勾選老師的選股條件：</span>
-                        <label><input type="checkbox" id="chkGM40" onchange="runScreenerFilter()"> 營業毛利率 ≥ 40%</label>
-                        <label><input type="checkbox" id="chkCapex40" onchange="runScreenerFilter()"> 資本支出/股本 ≥ 40%</label>
-                        <label><input type="checkbox" id="chkROE15" onchange="runScreenerFilter()"> ROE ≥ 15%</label>
-                        <label><input type="checkbox" id="chkDebt50" onchange="runScreenerFilter()"> 負債比率 ≤ 50%</label>
-                        <label><input type="checkbox" id="chkQR15" onchange="runScreenerFilter()"> 速動比率 ≥ 1.5</label>
-                        <label><input type="checkbox" id="chkEPSPos" onchange="runScreenerFilter()"> 近四季 EPS > 0</label>
+                    <div class="checkbox-filters-row" style="justify-content:space-between;">
+                        <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                            <span style="font-weight:800; color:#38bdf8;">自由勾選老師的選股條件：</span>
+                            <label style="border-color:#f59e0b; color:#fde047;"><input type="checkbox" id="chkOnlyETF" onchange="runScreenerFilter()"> ⭐ 僅限各大 ETF 成分股 (體質有把關)</label>
+                            <label><input type="checkbox" id="chkGM40" onchange="runScreenerFilter()"> 營業毛利率 ≥ 40%</label>
+                            <label><input type="checkbox" id="chkCapex40" onchange="runScreenerFilter()"> 資本支出/股本 ≥ 40%</label>
+                            <label><input type="checkbox" id="chkROE15" onchange="runScreenerFilter()"> ROE ≥ 15%</label>
+                            <label><input type="checkbox" id="chkDebt50" onchange="runScreenerFilter()"> 負債比率 ≤ 50%</label>
+                            <label><input type="checkbox" id="chkQR15" onchange="runScreenerFilter()"> 速動比率 ≥ 1.5</label>
+                            <label><input type="checkbox" id="chkEPSPos" onchange="runScreenerFilter()"> 近四季 EPS > 0</label>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <input type="text" id="screenerSearchInput" class="api-input" style="width:185px; border-color:#38bdf8;" placeholder="🔎 在表格中篩選代號/名稱/產業..." oninput="runScreenerFilter()">
+                        </div>
                     </div>
                 </div>
 
@@ -4106,8 +4113,108 @@
             });
         }
 
-        // === 10. 股海尋寶系統：老師的基本面好股篩選器 ===
-        let currentScreenerMode = 'all';
+        // === 10. 股海尋寶系統：老師的基本面好股篩選器 (支援全市場 2,333 檔與各大 ETF 核心成分股總池) ===
+        let currentScreenerMode = 'etf_all';
+        let SCREENER_UNIVERSE_CACHE = null;
+
+        async function buildScreenerUniverse() {
+            if (SCREENER_UNIVERSE_CACHE) return SCREENER_UNIVERSE_CACHE;
+            const allFund = await ensureAllTwFundLoaded();
+            const list = [];
+            const seen = new Set();
+
+            // 1. 先放入 36 檔課堂核心股 (並補上 ETF 成分股標籤)
+            for (const [id, st] of Object.entries(REAL_BUNDLE)) {
+                const f = allFund[id];
+                if (f && f.etf) st.etfTag = f.etf;
+                else if (id.startsWith('00')) st.etfTag = '核心ETF本身';
+                st.isClassCore = true;
+                list.push(st);
+                seen.add(id);
+            }
+
+            // 2. 再將全台灣 2,333 檔上市櫃真實財報股轉為標準計算結構
+            for (const [id, f] of Object.entries(allFund)) {
+                if (seen.has(id)) continue;
+                const price = f.p || 0;
+                if (price <= 0) continue;
+
+                const per = f.per || 0;
+                const pbr = f.pbr || 0;
+                const dy = f.dy || 0;
+                let ttmEPS = 0;
+                if (per > 0) ttmEPS = Number((price / per).toFixed(2));
+                else if (f.eps3Q !== undefined) ttmEPS = Number((f.eps3Q * 4 / 3).toFixed(2));
+
+                const forwardEPS = ttmEPS > 0 ? Number((ttmEPS * 1.12).toFixed(2)) : 0;
+                const bps = (f.bps && f.bps > 0) ? f.bps : (pbr > 0 ? Number((price / pbr).toFixed(2)) : Number((price * 0.5).toFixed(2)));
+                const cashDiv = (f.div && f.div > 0) ? Number(f.div.toFixed(2)) : (dy > 0 ? Number((price * dy / 100).toFixed(2)) : (ttmEPS > 0 ? Number((ttmEPS * 0.55).toFixed(2)) : 0));
+
+                const basePER = (per >= 5 && per <= 45) ? per : 16.0;
+                const lowPER = Number(Math.max(8, basePER * 0.82).toFixed(2));
+                const avgPER = Number(Math.max(12, basePER * 1.12).toFixed(2));
+                const highPER = Number(Math.max(16, basePER * 1.45).toFixed(2));
+
+                const basePBR = (pbr >= 0.4 && pbr <= 25) ? pbr : 1.5;
+                const lowPBR = Number(Math.max(0.6, basePBR * 0.82).toFixed(2));
+                const avgPBR = Number((basePBR * 1.12).toFixed(2));
+                const highPBR = Number((basePBR * 1.45).toFixed(2));
+
+                const gmPct = f.gmPct !== undefined ? f.gmPct : 0;
+                const opPct = f.opPct !== undefined ? f.opPct : 0;
+                const roePct = (bps > 0 && ttmEPS !== 0) ? Number(((ttmEPS / bps) * 100).toFixed(2)) : 0;
+                const debtRatio = f.debt || 0;
+                const quickRatio = f.qr || 0;
+                const capexToCapPct = f.capexPct || 0;
+
+                list.push({
+                    id,
+                    name: f.name || id,
+                    industry: f.ind || (f.mkt === 'TPEX' ? '上櫃公司' : '上市公司'),
+                    tag: f.etf ? `⭐${f.etf} · ${f.ind || ''}` : `${f.mkt === 'TPEX' ? '上櫃' : '上市'} · ${f.ind || ''}`,
+                    etfTag: f.etf || '',
+                    isClassCore: false,
+                    price, per, pbr, dy,
+                    ttmEPS, forwardEPS, bps, cashDiv,
+                    lowPER, avgPER, highPER, lowPBR, avgPBR, highPBR,
+                    classTarget2027: 0,
+                    gmPct, opPct, roePct, debtRatio, quickRatio, capexToCapPct
+                });
+                seen.add(id);
+            }
+
+            SCREENER_UNIVERSE_CACHE = list;
+            return list;
+        }
+
+        // 快速估算單檔股票的低中高合理價與 2027 目標價 (不需重跑 60 日 K 線陣列，讓 2,333 檔毫秒級篩選完成)
+        function fastComputeValuationForScreener(st) {
+            const isCycle = isCyclicalStock(st.id, st.industry);
+            const isHighDiv = isHighDivETF(st.id, st.name);
+            const fwdEPS = st.forwardEPS > 0 ? st.forwardEPS : (st.ttmEPS > 0 ? Number((st.ttmEPS * 1.1).toFixed(2)) : 0);
+            const isTinyEpsOrHighPer = (st.per > 80 || (fwdEPS > 0 && fwdEPS < st.price * 0.015));
+            const usePbr = isCycle || (isTinyEpsOrHighPer && !isHighDiv && st.bps > 0);
+
+            const perCheap = fwdEPS > 0 ? Math.round(fwdEPS * st.lowPER * 10) / 10 : 0;
+            const perFair = fwdEPS > 0 ? Math.round(fwdEPS * st.avgPER * 10) / 10 : 0;
+            const perExp = fwdEPS > 0 ? Math.round(fwdEPS * st.highPER * 10) / 10 : 0;
+
+            const pbrCheap = st.bps > 0 ? Math.round(st.bps * st.lowPBR * 10) / 10 : 0;
+            const pbrFair = st.bps > 0 ? Math.round(st.bps * st.avgPBR * 10) / 10 : 0;
+            const pbrExp = st.bps > 0 ? Math.round(st.bps * st.highPBR * 10) / 10 : 0;
+
+            const divCheap = st.cashDiv > 0 ? Math.round((st.cashDiv / 0.08) * 10) / 10 : 0;
+            const divFair = st.cashDiv > 0 ? Math.round((st.cashDiv / 0.06) * 10) / 10 : 0;
+            const divExp = st.cashDiv > 0 ? Math.round((st.cashDiv / 0.045) * 10) / 10 : 0;
+
+            let cheap = perCheap, fair = perFair, exp = perExp;
+            if (usePbr) { cheap = pbrCheap; fair = pbrFair; exp = pbrExp; }
+            else if (isHighDiv) { cheap = divCheap; fair = divFair; exp = divExp; }
+
+            let target2027 = st.classTarget2027 || fair;
+            const upsidePct = (target2027 > 0 && st.price > 0) ? Number((((target2027 - st.price) / st.price) * 100).toFixed(1)) : 0;
+            return { fwdEPS, cheap, fair, exp, target2027, upsidePct };
+        }
 
         function applyScreenerPreset(mode, btnEl) {
             currentScreenerMode = mode;
@@ -4115,6 +4222,7 @@
             if (btnEl) btnEl.classList.add('active');
 
             // 同步更新勾選框狀態
+            document.getElementById('chkOnlyETF').checked = (mode === 'etf_all');
             document.getElementById('chkGM40').checked = (mode === 'teacher_strict' || mode === 'high_gm_roe');
             document.getElementById('chkCapex40').checked = (mode === 'teacher_strict');
             document.getElementById('chkROE15').checked = (mode === 'teacher_strict' || mode === 'high_gm_roe');
@@ -4125,29 +4233,35 @@
             runScreenerFilter(mode);
         }
 
-        function runScreenerFilter(forceMode) {
-            const mode = forceMode || 'custom';
+        async function runScreenerFilter(forceMode) {
+            const mode = forceMode || currentScreenerMode || 'custom';
+            const onlyETF = document.getElementById('chkOnlyETF') ? document.getElementById('chkOnlyETF').checked : false;
             const reqGM = document.getElementById('chkGM40').checked;
             const reqCapex = document.getElementById('chkCapex40').checked;
             const reqROE = document.getElementById('chkROE15').checked;
             const reqDebt = document.getElementById('chkDebt50').checked;
             const reqQR = document.getElementById('chkQR15').checked;
             const reqEPS = document.getElementById('chkEPSPos').checked;
+            const searchQ = (document.getElementById('screenerSearchInput') ? document.getElementById('screenerSearchInput').value.trim().toUpperCase() : '');
 
-            const allStocks = Object.values(REAL_BUNDLE);
+            const allStocks = await buildScreenerUniverse();
             const filtered = allStocks.filter(st => {
-                if (mode === 'etf_cycle') {
-                    return st.id.startsWith('00') || st.id === '2603' || st.id === '3293';
+                if (searchQ) {
+                    const hay = `${st.id} ${st.name} ${st.tag || ''} ${st.industry || ''}`.toUpperCase();
+                    if (!hay.includes(searchQ)) return false;
+                }
+                if (mode === 'class_core') {
+                    return st.isClassCore;
                 }
                 if (mode === 'eliminated') {
                     return ['2451', '8114', '6442', '3176', '2498'].includes(st.id);
                 }
+                if (onlyETF && !st.etfTag && !st.id.startsWith('00')) {
+                    return false;
+                }
                 if (mode === 'undervalued') {
-                    const c = computeIndicatorsAndFormulas(st);
-                    const isCycle = isCyclicalStock(st.id, st.industry);
-                    const isHighDiv = isHighDivETF(st.id, st.name);
-                    const fair = isCycle ? c.pbrFair : (isHighDiv ? c.divFair : c.perFair);
-                    return st.ttmEPS > 0 && fair > 0 && st.price <= fair * 1.05;
+                    const c = fastComputeValuationForScreener(st);
+                    if (!(st.ttmEPS > 0 && c.fair > 0 && st.price <= c.fair * 1.02)) return false;
                 }
                 if (reqGM && st.gmPct < 40) return false;
                 if (reqCapex && st.capexToCapPct < 40) return false;
@@ -4158,27 +4272,32 @@
                 return true;
             });
 
-            document.getElementById('screenerMatchCount').innerText = `符合條件：共 ${filtered.length} 檔真實財報股`;
+            // 排序：課堂重點股與 ETF 成分股優先，再依 ROE 由高到低排序
+            filtered.sort((a, b) => {
+                if (a.isClassCore !== b.isClassCore) return a.isClassCore ? -1 : 1;
+                const aEtf = a.etfTag ? 1 : 0, bEtf = b.etfTag ? 1 : 0;
+                if (aEtf !== bEtf) return bEtf - aEtf;
+                return (b.roePct || 0) - (a.roePct || 0);
+            });
+
+            const displayList = filtered.slice(0, 300); // 畫面最多渲染前 300 檔確保極速流暢，上方搜尋框可隨時搜出全部 2,333 檔
+            document.getElementById('screenerMatchCount').innerText = `符合條件：共 ${filtered.length} 檔真實財報股 (全市場庫共 ${allStocks.length} 檔)`;
 
             const tbody = document.getElementById('screenerTableBody');
-            tbody.innerHTML = filtered.map(st => {
-                const c = computeIndicatorsAndFormulas(st);
-                const isCycle = isCyclicalStock(st.id, st.industry);
-                const isHighDiv = isHighDivETF(st.id, st.name);
-                const cheap = isCycle ? c.pbrCheap : (isHighDiv ? c.divCheap : c.perCheap);
-                const fair = isCycle ? c.pbrFair : (isHighDiv ? c.divFair : c.perFair);
-                const exp = isCycle ? c.pbrExp : (isHighDiv ? c.divExp : c.perExp);
+            tbody.innerHTML = displayList.map(st => {
+                const c = fastComputeValuationForScreener(st);
+                const { cheap, fair, exp } = c;
 
                 const gmColor = st.gmPct >= 40 ? '#34d399' : '#cbd5e1';
                 const capColor = st.capexToCapPct >= 40 ? '#34d399' : '#f87171';
                 const roeColor = st.roePct >= 15 ? '#34d399' : '#f87171';
-                const debtColor = st.debtRatio <= 50 ? '#34d399' : '#f87171';
+                const debtColor = (st.debtRatio > 0 && st.debtRatio <= 50) ? '#34d399' : '#f87171';
                 const qrColor = st.quickRatio >= 1.5 ? '#34d399' : '#facc15';
                 const upColor = c.upsidePct >= 0 ? '#34d399' : '#f87171';
 
                 return `<tr onclick="pickFromScreener('${st.id}')">
                     <td style="text-align:left; font-weight:900; color:#38bdf8;">${st.id} ${st.name}</td>
-                    <td style="text-align:left; color:#94a3b8; font-size:11.5px;">${st.tag || st.industry}</td>
+                    <td style="text-align:left; color:${st.etfTag ? '#fde047' : '#94a3b8'}; font-size:11.5px;">${st.tag || st.industry}</td>
                     <td style="font-weight:900; color:#fff;">$${st.price.toLocaleString()}</td>
                     <td style="color:${gmColor}; font-weight:700;">${st.gmPct}%</td>
                     <td style="color:${capColor}; font-weight:700;">${st.capexToCapPct}%</td>
@@ -4288,7 +4407,7 @@
             if (savedToken) document.getElementById('finmindTokenInput').value = savedToken;
             loadWatchlist();
             selectStock('2330');
-            runScreenerFilter('all');
+            applyScreenerPreset('etf_all', document.querySelector('.preset-filter-btn'));
 
             // 將知識庫卡片按鈕文字改為「📈 帶入實戰網頁試算」
             document.querySelectorAll('.kb-card .ask-btn').forEach(btn => {
