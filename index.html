@@ -1040,7 +1040,7 @@
                     <div id="autocompleteList" class="autocomplete-list"></div>
                     <button class="btn-primary-query" onclick="executeQuery()">🔍 查詢並真實計算</button>
                     <button class="btn-add-fav" onclick="addCurrentToWatchlist()">⭐ + 加入自選</button>
-                    <button class="btn-live-refresh" onclick="forceLiveFetchCurrent()">🔄 即時連線 FinMind 重抓財報</button>
+                    <button class="btn-live-refresh" id="btnLiveRefresh" onclick="forceLiveFetchCurrent()">🔄 連線更新最新收盤價</button>
                     <button class="btn-tool" onclick="scrollToScreener()" style="background:#713f12; border-color:#f59e0b; color:#fef3c7;">⚡ 往下看：老師的7大基本面好股尋寶器 ↓</button>
                 </div>
                 <div class="data-source-badge" id="dataSourceBadge">
@@ -2648,6 +2648,11 @@
         }
 
         async function forceLiveFetchCurrent() {
+            const btn = document.getElementById('btnLiveRefresh');
+            if (btn) {
+                btn.innerHTML = '⏳ 連線 FinMind 更新中...';
+                btn.style.background = '#1e3a8a';
+            }
             await selectStock(currentSymbol, true);
         }
 
@@ -2779,31 +2784,78 @@
                     };
                 });
 
-                const cashDiv = lastPerRow.dividend_yield > 0 ? Number((latestP.c * lastPerRow.dividend_yield / 100).toFixed(2)) : Number((ttmEPS * 0.5).toFixed(2));
-                const forwardEPS = ttmEPS > 0 ? Number((ttmEPS * 1.12).toFixed(2)) : 0;
+                const existing = REAL_BUNDLE[sym] || {};
+                const cashDiv = existing.cashDiv || (lastPerRow.dividend_yield > 0 ? Number((latestP.c * lastPerRow.dividend_yield / 100).toFixed(2)) : Number((ttmEPS * 0.5).toFixed(2)));
+                const forwardEPS = existing.forwardEPS || (ttmEPS > 0 ? Number((ttmEPS * 1.12).toFixed(2)) : 0);
 
                 const newStockObj = {
-                    id: sym, name: sname, industry: "上市櫃即時連線", tag: "FinMind即時實算",
-                    teacherNote: "",
+                    id: sym, name: sname,
+                    industry: existing.industry || "上市櫃即時連線",
+                    tag: existing.tag || "FinMind即時實算",
+                    teacherNote: existing.teacherNote || "",
                     price: latestP.c, date: latestP.d, spread: latestP.s, chgPct: chgPct, vol: latestP.v,
-                    per: lastPerRow.PER || 0, pbr: lastPerRow.PBR || 0, dy: lastPerRow.dividend_yield || 0,
-                    ttmEPS, forwardEPS, qEPS, bps, cashDiv,
-                    lowPER, avgPER, highPER, lowPBR, avgPBR, highPBR, classTarget2027: 0,
-                    gmPct, opPct, opGrowthPct: 15.0, epsGrowthPct: 12.0, roePct, debtRatio, quickRatio,
-                    caM: Number((ca/1e6).toFixed(2)), invM: Number((inv/1e6).toFixed(2)), clM: Number((cl/1e6).toFixed(2)),
-                    capStockB, ttmCapexM, ttmOcfM, capexToCapPct, capexToOcfPct, qCF: last4Cf, chips, klines
+                    per: lastPerRow.PER || existing.per || 0,
+                    pbr: lastPerRow.PBR || existing.pbr || 0,
+                    dy: lastPerRow.dividend_yield || existing.dy || 0,
+                    ttmEPS: ttmEPS || existing.ttmEPS || 0,
+                    forwardEPS,
+                    qEPS: qEPS.length ? qEPS : (existing.qEPS || []),
+                    bps: bps || existing.bps || 0,
+                    cashDiv,
+                    lowPER: existing.lowPER || lowPER,
+                    avgPER: existing.avgPER || avgPER,
+                    highPER: existing.highPER || highPER,
+                    lowPBR: existing.lowPBR || lowPBR,
+                    avgPBR: existing.avgPBR || avgPBR,
+                    highPBR: existing.highPBR || highPBR,
+                    classTarget2027: existing.classTarget2027 || 0,
+                    gmPct: gmPct || existing.gmPct || 0,
+                    opPct: opPct || existing.opPct || 0,
+                    opGrowthPct: existing.opGrowthPct || 15.0,
+                    epsGrowthPct: existing.epsGrowthPct || 12.0,
+                    roePct: roePct || existing.roePct || 0,
+                    debtRatio: debtRatio || existing.debtRatio || 0,
+                    quickRatio: quickRatio || existing.quickRatio || 0,
+                    caM: ca > 0 ? Number((ca/1e6).toFixed(2)) : (existing.caM || 0),
+                    invM: inv > 0 ? Number((inv/1e6).toFixed(2)) : (existing.invM || 0),
+                    clM: cl > 0 ? Number((cl/1e6).toFixed(2)) : (existing.clM || 0),
+                    capStockB: capStockB || existing.capStockB || 0,
+                    ttmCapexM: ttmCapexM || existing.ttmCapexM || 0,
+                    ttmOcfM: ttmOcfM || existing.ttmOcfM || 0,
+                    capexToCapPct: capexToCapPct || existing.capexToCapPct || 0,
+                    capexToOcfPct: capexToOcfPct || existing.capexToOcfPct || 0,
+                    qCF: last4Cf.length ? last4Cf : (existing.qCF || []),
+                    chips: chips.length ? chips : (existing.chips || []),
+                    klines
                 };
 
                 REAL_BUNDLE[sym] = newStockObj;
                 currentStock = newStockObj;
-                badge.innerHTML = `✅ 即時連線 FinMind 抓取成功 (${latestP.d} 真實財報與日K)`;
+                badge.innerHTML = `✅ 即時連線 FinMind 同步完成 (${latestP.d} 最新收盤 $${latestP.c})`;
+                renderWatchlistBar();
                 renderAllForCurrentStock();
                 runScreenerFilter();
+
+                const btn = document.getElementById('btnLiveRefresh');
+                if (btn) {
+                    btn.innerHTML = `✅ 已同步最新報價 (${latestP.d})`;
+                    btn.style.background = '#065f46';
+                    btn.style.borderColor = '#10b981';
+                    setTimeout(() => {
+                        btn.innerHTML = '🔄 連線更新最新收盤價';
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                    }, 3500);
+                }
             } catch (err) {
                 console.warn(err);
+                const btn = document.getElementById('btnLiveRefresh');
+                if (btn) {
+                    btn.innerHTML = '🔄 連線更新最新收盤價';
+                }
                 if (REAL_BUNDLE[sym]) {
                     currentStock = REAL_BUNDLE[sym];
-                    badge.innerHTML = `✅ 已載入內建真實財報數據 (${currentStock.date})`;
+                    badge.innerHTML = `✅ 目前已是最新收盤與財報數據 (${currentStock.date} 收盤 $${currentStock.price})`;
                     renderAllForCurrentStock();
                 } else {
                     badge.innerHTML = `⚠️ FinMind 免費額度達上限，請於右上角填入免費 FinMind Token 或先查詢內建 36 檔重點股`;
