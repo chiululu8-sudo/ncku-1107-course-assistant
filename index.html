@@ -482,6 +482,256 @@
             border-radius: 4px;
         }
     
+    
+        /* 3天全科速查知識庫專屬樣式 */
+        .kb-container {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .kb-header-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .kb-title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .kb-title-bar h2 {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 1.4rem;
+        }
+
+        .badge-tag {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .kb-search-box {
+            position: relative;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .kb-search-box .search-icon {
+            position: absolute;
+            left: 14px;
+            font-size: 1.1rem;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .kb-search-box input {
+            width: 100%;
+            padding: 12px 75px 12px 42px;
+            font-size: 0.95rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            background: #f8fafc;
+        }
+
+        .kb-search-box input:focus {
+            border-color: #4f46e5;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        .kb-search-box .clear-btn {
+            position: absolute;
+            right: 10px;
+            padding: 6px 14px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .kb-search-box .clear-btn:hover {
+            background: #cbd5e1;
+            color: #1e293b;
+        }
+
+        .kb-filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .filter-pill {
+            padding: 6px 14px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-pill:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .filter-pill.active {
+            background: #1e3a8a;
+            color: #ffffff;
+            border-color: #1e3a8a;
+            box-shadow: 0 2px 6px rgba(30, 58, 138, 0.25);
+        }
+
+        .kb-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .kb-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .kb-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e1;
+        }
+
+        .kb-card-header {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-ticker {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .card-cat-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .stock-badge {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .formula-badge {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .kline-badge {
+            background: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        .kb-card-body {
+            padding: 14px 16px;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: #334155;
+            flex: 1;
+        }
+
+        .kb-card-body p {
+            margin-bottom: 8px;
+        }
+
+        .kb-card-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .kb-highlight-callout {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 8px 12px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.84rem;
+            margin-bottom: 10px;
+            color: #1e3a8a;
+        }
+
+        .formula-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 8px 0;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .kb-card-footer {
+            padding: 10px 16px;
+            background: #f8fafc;
+            border-top: 1px solid #f1f5f9;
+            text-align: right;
+        }
+
+        .ask-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .ask-btn:hover {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+
+        @media (max-width: 768px) {
+            .kb-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -503,12 +753,516 @@
 
     <!-- 課堂切換分頁 -->
     <div class="course-tabs">
-        <button class="tab-btn active" id="tab1121" onclick="switchCourse('1121')">🔥 1121 估價模型、黑板手算與K線實戰 (全新20-25分雙大課)</button>
-        <button class="tab-btn" id="tab1114" onclick="switchCourse('1114')">✨ 1114 股票風險管理與財務選股</button>
-        <button class="tab-btn" id="tab1107" onclick="switchCourse('1107')">📚 1107 總體經濟與主力操盤</button>
+        <button class="tab-btn active" id="tab1121" onclick="switchCourse('1121')">🔥 1121 估價與手算大課</button>
+        <button class="tab-btn" id="tab1114" onclick="switchCourse('1114')">✨ 1114 財務選股</button>
+        <button class="tab-btn" id="tab1107" onclick="switchCourse('1107')">📚 1107 總經主力</button>
+        <button class="tab-btn" id="tabKB" onclick="switchCourse('kb')" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; font-weight: 700;">🔍 3天全科速查知識庫</button>
     </div>
 
-    <div class="container">
+    
+        <!-- 3天全科速查知識庫 (NEW!) -->
+        <div id="kbSection" class="kb-container" style="display: none;">
+            <div class="kb-header-card card">
+                <div class="kb-title-bar">
+                    <h2>🔍 成大投資實戰 3 天全科速查知識庫</h2>
+                    <span class="badge-tag">1107 · 1114 · 1121 全科整合</span>
+                </div>
+                <p style="color: #64748b; font-size: 0.9rem; margin-top: 4px;">
+                    打字即時檢索個股代號、黑板手算式、三大估價法、K線心戰與操盤紀律，外出或盤中隨手一查即見！
+                </p>
+
+                <!-- 即時搜尋欄 -->
+                <div class="kb-search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="kbSearchInput" placeholder="輸入關鍵字或代號（例：2330, 川湖, PBR, 魚板, 1121, 資本支出, 插旗, 停利...）" oninput="filterKbCards()">
+                    <button class="clear-btn" onclick="clearKbSearch()">清除</button>
+                </div>
+
+                <!-- 快捷標籤過濾 -->
+                <div class="kb-filter-pills">
+                    <button class="filter-pill active" onclick="setKbFilter('all', this)">全部 (22項)</button>
+                    <button class="filter-pill" onclick="setKbFilter('stock', this)">📊 個股速查 (8檔)</button>
+                    <button class="filter-pill" onclick="setKbFilter('formula', this)">📐 黑板手算與公式 (8式)</button>
+                    <button class="filter-pill" onclick="setKbFilter('kline', this)">🍢 K線與心戰紀律 (6條)</button>
+                    <button class="filter-pill" onclick="setKbFilter('1121', this)">📅 1121 估價與手算</button>
+                    <button class="filter-pill" onclick="setKbFilter('1114', this)">📅 1114 風險與財務</button>
+                    <button class="filter-pill" onclick="setKbFilter('1107', this)">📅 1107 總經與主力</button>
+                </div>
+            </div>
+
+            <!-- 卡片網格清單 -->
+            <div class="kb-grid" id="kbGrid">
+                
+                <!-- 卡片 1: 台積電 2330 -->
+                <div class="kb-card" data-category="stock 1121 1114 1107" data-search="2330 台積電 晶圓代工 半導體 cowos 先進封裝 三星 本益比 估值 估價 2000 送錢買點 2574 4004">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">2330 台積電</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            🔥 <strong>現價 2,000 元心戰：</strong>外資結帳錯殺至 2,000 元甚至破 2,000 來到 1,900 元時，實質本益比僅 14 倍，處於歷史河流圖極度下緣，簡直是<strong>老天爺送錢</strong>！
+                        </div>
+                        <p><strong>🎯 2027 年目標價黑板推導：</strong><br>
+                        • 保守買點（18倍加權最低PER）：$143 \times 18 = \mathbf{2,574\text{ 元}}$<br>
+                        • 樂觀高點（28倍加權最高PER）：$143 \times 28 = \mathbf{4,004\text{ 元}}$</p>
+                        <p><strong>📈 本益比三階梯（1114筆記）：</strong><br>
+                        • 20～25 倍：【便宜送分題】勇敢分批撿便宜。<br>
+                        • 25～30 倍：【合理估值區間】順勢持有享受成長。<br>
+                        • 30～35 倍：【昂貴過熱】散戶追高風險大，順應主力分批逢高停利。</p>
+                        <p><strong>🛡️ 財務體質（2026Q3）：</strong>淨利 7,630 億（年增 68.7%）、EPS 29.43 元、毛利 58.65%、負債比僅 29.9% 固若金湯。</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('台積電 2,000 元估值密碼與 2027 年預估目標價？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 2: 川湖 2059 -->
+                <div class="kb-card" data-category="stock 1121 1114" data-search="2059 川湖 伺服器 滑軌 導軌 資本支出 pbr 淨值比 洗盤 腰斬 13000 6000 9% 136.7% 插旗">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">2059 川湖</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            ⚠️ <strong>資本支出雙面刃與主力洗盤：</strong>主力先前把川湖炒到 13,000 元天價，隨後藉高擴產大舉摜殺腰斬跌破 6,000 元！老師 5,700~6,000 賣飛借鏡催生「零股插旗策略」。
+                        </div>
+                        <p><strong>📐 兩次課堂黑板手算對照：</strong><br>
+                        • <strong>1114 課堂手算</strong>：近四季資本支出 1,155.67 百萬 ÷ 營運現金流 12,781 百萬 = <strong>9.04%（約 9%）</strong>，專利護城河極深的高現金流印鈔機！<br>
+                        • <strong>1121 最新黑板手算</strong>：資本支出 1,303.01 百萬 ÷ 股本 9.53 億 $\times 0.01 =$ <strong>136.7%</strong>（大於 1.3 個股本，擴產極猛烈！）。</p>
+                        <p><strong>🎯 正統 PBR 估值（每股淨值 477.02 元）：</strong><br>
+                        • 便宜價（最低 5.08 倍）= <strong>2,423 元</strong><br>
+                        • 合理價（平均 11.34 倍）= <strong>5,409 元</strong><br>
+                        • 昂貴價（最高 17.6 倍）= <strong>8,395 元</strong></p>
+                        <p>• <strong>2027 目標價</strong>：保守 340 元 × 21.81 倍 = 7,415 元；共識 463.85 元 × 21.81 倍 = 10,116 元。</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('川湖資本支出佔股本 136.7% 的手算過程與合理 PBR 價格？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 3: 致茂 2360 -->
+                <div class="kb-card" data-category="stock 1121" data-search="2360 致茂 測試設備 半導體 資本支出 黑板手算 per 1163 927 45.47%">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">2360 致茂</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            📝 <strong>黑板手算標準合格成長股：</strong>科技廠敢砸大錢擴產，代表手中已握有大客戶長期明確訂單！
+                        </div>
+                        <p><strong>① 資本支出 ÷ 股本手算：</strong><br>
+                        近四季資本支出之和 = $559.76 + 394.67 + 526.48 + 453.30 = 1,933.71$ (百萬)<br>
+                        目前股本 = $42.52$ (億)<br>
+                        計算：$(1,933.71 \div 42.52) \times 0.01 = \mathbf{45.47\% > 40\%}$ (合格！)</p>
+                        <p><strong>② 加權最低 PER</strong> = $19.25$ 倍<br>
+                        <strong>③ 2027 保守預估 EPS</strong> = $60.45$ 元 (中位數 70 元)<br>
+                        <strong>④ 2027 合理目標價</strong> = $60.45 \times 19.25 = \mathbf{1,163.6\text{ 元}}$<br>
+                        • 對照現價 927 元，尚有約 <strong>25%</strong> 潛在資本利得空間！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('請詳細說明致茂 2360 黑板手算過程與合理目標價 1,163 元？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 4: 奇鋐 3017 -->
+                <div class="kb-card" data-category="stock 1121" data-search="3017 奇鋐 散熱 水冷 水冷板 asic gpu 伺服器 4000 2000 河流圖">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">3017 奇鋐</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            ❄️ <strong>散熱王者：</strong>AI 功耗暴增氣冷達極限，水冷板與分歧管爆發。2027 年 CSP 自研 ASIC 水冷專案將超越 GPU！
+                        </div>
+                        <p><strong>🎯 法人共識目標價 4,000 元矩陣：</strong><br>
+                        • 統一投顧：預估 EPS 181.12 元 × 25.0 倍 $\rightarrow$ 目標價 4,525 元<br>
+                        • 凱基投顧：預估 EPS 173.39 元 × 25.0 倍 $\rightarrow$ 目標價 4,335 元<br>
+                        • 花旗環球：預估 EPS 173.13 元 × 25.1 倍 $\rightarrow$ 目標價 4,350 元<br>
+                        • FactSet 市場共識中位數：EPS 156.83 元 × 25.5 倍 $\rightarrow$ <strong>4,000 元</strong></p>
+                        <p><strong>💡 操作心法：</strong>跟隨大盤回檔被錯殺至 2,000 元附近，相較 4,000 元目標價獲利空間達一倍，典型「好股票遇到倒楣事」。</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('奇鋐 3017 散熱王者之法人 2027 年目標價共識與操作心法？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 5: 鈊象 3293 -->
+                <div class="kb-card" data-category="stock 1121" data-search="3293 鈊象 遊戲 授權 98% 毛利率 博弈 手遊 700 740 930 990">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">3293 鈊象</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            🎮 <strong>98% 天花板毛利率：</strong>以海外「網路遊戲授權」為核心，幾乎無原物料成本，營收幾乎百分之百轉化為淨利！
+                        </div>
+                        <p><strong>🎯 估值與安全底線：</strong><br>
+                        • 美國多州線上掃蕩博弈手遊為 2027 營收破 300 億最大動能。<br>
+                        • 2027 法人預估 EPS 落在 53.26～59.45 元 (中位數 54.78 元)。<br>
+                        • 合理本益比 17～18 倍 = <strong>930～990 元</strong>；樂觀 20 倍為 1,100 元以上。<br>
+                        • 實戰買點：回測 <strong>700～740 元</strong>合理價區間，兼具防禦力與賺價差。</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('鈊象 3293 遊戲股之護城河與 2027 年估價實證？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 6: 長榮 2603 -->
+                <div class="kb-card" data-category="stock 1121" data-search="2603 長榮 航運 貨櫃輪 pbr 淨值比 景氣循環股 191 302 413 雪球存股 溫國信">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">2603 長榮</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            🚢 <strong>溫國信雪球存股法大打臉：</strong>雪球法拿 5 年平均股利乘 16/20/32 倍算長榮會算出幾百元天價！景氣繁榮頂點 PER 僅 2~3 倍是致命陷阱，景氣循環股必須回歸 PBR！
+                        </div>
+                        <p><strong>🎯 長榮正統 PBR 估價（每股淨值 281.15 元）：</strong><br>
+                        • 便宜價（最低 0.68 倍）= <strong style="color:#16a34a;">191 元</strong><br>
+                        • 合理價（平均 1.075 倍）= <strong style="color:#d97706;">302 元</strong><br>
+                        • 昂貴價（最高 1.47 倍）= <strong style="color:#dc2626;">413 元</strong></p>
+                        <p><strong>⚠️ 運價週期風險：</strong>長線新造貨櫃輪大量交船供過於求，0.68~0.8 倍撿便宜做波段，接近 300 元堅決停利，絕不當傳家寶！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('長榮海運為什麼不能用雪球法？正統 PBR 便宜價 191 元怎麼算？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 7: 智邦與00692 -->
+                <div class="kb-card" data-category="stock 1114 1121" data-search="2345 智邦 00692 富邦公司治理 esg 交換器 cpo 網通 hpc">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">2345 智邦 & 00692</span>
+                        <span class="card-cat-badge stock-badge">📊 個股速查</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>🌐 智邦（2345）—— HPC 傳輸喉嚨：</strong><br>
+                        AI 模型參數破兆，單一晶片放不下，傳輸瓶頸全在互聯頻寬！智邦深耕 800G 交換器與 CPO 共同封裝光學，直接供貨美系頂級白牌雲端廠。</p>
+                        <p><strong>🏆 00692（富邦公司治理 ETF）：</strong><br>
+                        手寫筆記特別紅圈標註！專挑臺灣公司治理評鑑前 20% 模範生，杜絕作假帳掏空風險；經理費僅 0.15%（遠低於 0050 的 0.32%），定存族核心標的。</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('手寫筆記上為什麼特別圈出 00692 與智邦 2345？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 8: 地雷股淘汰對照 -->
+                <div class="kb-card" data-category="stock 1121 1114" data-search="3176 基亞 2498 宏達電 2451 創見 8114 振樺電 6442 光聖 地雷股 假成長 淘汰 本夢比">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">地雷與淘汰對照組</span>
+                        <span class="card-cat-badge stock-badge" style="background:#fee2e2; color:#b91c1c;">⚠️ 避坑指南</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>💥 基亞（3176）本夢比毀滅：</strong>當年靠新藥夢炒到 400~500 元，解盲失敗連爆 17 根無量跌停一字線跌回 20 幾元，連停損都賣不掉！</p>
+                        <p><strong>📉 宏達電（2498）：</strong>失去智慧機競爭力時毛利腰斬，散戶一路加碼攤平套牢 90%。</p>
+                        <p><strong>🚫 資本支出不足 40% 淘汰組：</strong><br>
+                        • 創見（2451）：0.716%（遠低於 40%），成熟期無擴產動能。<br>
+                        • 振樺電（8114）：23.83%（< 40%），淘汰。<br>
+                        • 光聖（6442）：18.45%（< 40%），淘汰。</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('課堂上創見、振樺電、光聖為什麼因資本支出不足被淘汰？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 9: 股息殖利率換算法 -->
+                <div class="kb-card" data-category="formula 1121" data-search="股息殖利率換算法 公式 0056 00878 高股息 蓄水池 6% 7% 10%">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 股息殖利率換算法</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>適用對象：</strong>股價平穩、配息穩定之高股息 ETF（0056、00878）或獲利穩定公用股。</p>
+                        <div class="formula-box">
+                            $$\text{合理股價} = \frac{\text{前一年度現金股利}}{\text{近 5 年平均現金殖利率（常態以 6\% 為基準）}}$$
+                        </div>
+                        <p>• 常態以 <strong>6%</strong> 殖利率為基準，抵消通膨與風險。<br>
+                        • 恐慌大跌危機入市時，門檻拉高至 <strong>7%～10%</strong> 逆推便宜價。</p>
+                        <p><strong>⚠️ ETF 淨值三大蓄水池陷阱：</strong><br>
+                        1. 收益平準金與股息池（真現金）<br>
+                        2. 已實現資本利得池（老本池，0056老牌累積雄厚）<br>
+                        3. 未實現資本利得（紙上富貴，新型ETF池子淺暴跌砍配息）</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('股息殖利率換算法的公式與 ETF 三大淨值蓄水池陷阱？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 10: 股價淨值比法 PBR -->
+                <div class="kb-card" data-category="formula 1121" data-search="股價淨值比法 pbr 景氣循環股 加權平均 bps 航運 鋼鐵 水泥 塑化">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 股價淨值比法 (PBR)</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>適用對象：</strong>鋼鐵、水泥、塑化、散裝與貨櫃航運、營建等景氣循環股。</p>
+                        <div class="formula-box">
+                            $$\text{股價} = \text{最近 1 季每股淨值 (BPS)} \times \text{歷年加權平均 PBR 倍數}$$
+                        </div>
+                        <p>• 便宜價 = $\text{BPS} \times \text{加權最低 PBR}$<br>
+                        • 合理價 = $\text{BPS} \times [(\text{加權最低} + \text{加權最高}) \div 2]$<br>
+                        • 昂貴價 = $\text{BPS} \times \text{加權最高 PBR}$</p>
+                        <p><strong>⭐ 為什麼必須用「加權平均」？</strong><br>
+                        公司在一年中隨時增資發行新股，在外流通股數動態變化。加權平均依月份權重換算，與財報上以加權股數算出的 EPS 與淨值完全對齊！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('為什麼景氣循環股必須用加權平均 PBR 估價？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 11: 本益比評價法 PER -->
+                <div class="kb-card" data-category="formula 1121" data-search="本益比 per forward eps 河流圖 成長股 科技股 買點 賣點">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 本益比評價法 (PER)</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>適用對象：</strong>高毛利、營運穩健且產業趨勢向上之成長型科技股。<br>
+                        <strong>禁用對象：</strong>虧損、單季 EPS < 1 元、獲利暴起暴落景氣股嚴禁套用！</p>
+                        <div class="formula-box">
+                            $$\text{目標股價} = \text{未來預估每股盈餘 (Forward EPS)} \times \text{合理本益比倍數}$$
+                        </div>
+                        <p><strong>🌈 本益比河流圖五色判讀：</strong><br>
+                        • <strong>深藍 / 淺藍色</strong>：極低/低估買點，好股票被錯殺送分題。<br>
+                        • <strong>黃色</strong>：合理估值區間，波段持有。<br>
+                        • <strong>淺紅 / 深紅色</strong>：過度透支未來成長，主力獲利了結修正，堅決分批停利！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('本益比評價法的 Forward EPS 核心心法與河流圖五色判讀？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 12: 資本支出佔股本比 -->
+                <div class="kb-card" data-category="formula 1121" data-search="資本支出佔股本比 40% 單位陷阱 百萬 億 擴產 訂單">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 資本支出佔股本比率</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="formula-box">
+                            $$\frac{\text{近四季資本支出總額 (百萬)}}{\text{目前股本 (億)}} \times 0.01 > 40\%$$
+                        </div>
+                        <p><strong>財務意義：</strong>科技廠敢砸大錢擴產蓋廠買設備，代表手中已握有國際大客戶長期明確訂單！</p>
+                        <p><strong>⚠️ 現場單位陷阱：</strong><br>
+                        XQ 或公開資訊觀測站資本支出是「百萬（Million）」，股本是「億（100 Million）」！手算時若直接拿百萬除以億，必須<strong>再乘以 0.01</strong>，否則會把 45% 算成 0.0045！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('資本支出佔股本大於 40% 的含義與百萬除以億的單位換算陷阱？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 13: 資本支出率與速動比率 -->
+                <div class="kb-card" data-category="formula 1114" data-search="資本支出率 速動比率 流動資產 存貨 預付款 流動負債 川湖 9% 1.5">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 資本支出率 & 速動比率</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>1. 資本支出率（現金流版）：</strong></p>
+                        <div class="formula-box">
+                            $$\text{資本支出率} = \frac{\text{近四季資本支出之和}}{\text{近四季來自營運之現金流量}}$$
+                        </div>
+                        <p>• 標準區間 30%~90%；川湖僅 <strong>9%</strong>（1155.67 ÷ 12781 = 0.09042），高定價權印鈔機。</p>
+                        <p><strong>2. 速動比率（安全償債防禦線）：</strong></p>
+                        <div class="formula-box">
+                            $$\text{速動比率} = \frac{\text{流動資產} - \text{存貨} - \text{預付款項}}{\text{流動負債}} > 1.5$$
+                        </div>
+                        <p>扣除存貨與預付款，確保危機時真金白銀能輕鬆償債 1.5 倍以上！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('速動比率大於 1.5 為什麼要扣除存貨與預付款？川湖 9% 怎麼算？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 14: ROE 與杜邦負債陷阱 -->
+                <div class="kb-card" data-category="formula 1114" data-search="roe 股東權益報酬率 杜邦分析 負債比 流動比 借錢 陷阱">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 ROE 與負債比陷阱</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="formula-box">
+                            $$\text{ROE} = \frac{\text{稅後淨利}}{\text{股東權益}} \times 100\% \quad (\text{門檻 } > 15\% \sim 20\%)$$
+                        </div>
+                        <p><strong>⚠️ 高負債衝高 ROE 致命陷阱：</strong><br>
+                        資產 = 負債 + 股東權益。若資產 100 元中負債佔 40 元，股東權益僅 60 元，透過借錢縮小分母把 ROE 衝到 20%，景氣反轉利息會吃光獲利！</p>
+                        <p><strong>🛡️ 雙重防禦條件：</strong><br>
+                        ① 負債比率 $< 50\%$<br>
+                        ② 流動比率 $> 2$、速動比率 $> 1.5$</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('ROE 高負債陷阱的機制與兩大防禦條件？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 15: XQ 七大選股關鍵因子 -->
+                <div class="kb-card" data-category="formula 1121" data-search="xq 全球贏家 財報狗 七大選股 條件 毛利率 40% roe 自由現金流">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 XQ 七大法人選股條件</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <table style="width:100%; font-size:0.8rem; border-collapse:collapse; margin-top:4px;">
+                            <tr style="background:#f1f5f9;"><th style="padding:4px; border:1px solid #cbd5e1;">選股因子</th><th style="padding:4px; border:1px solid #cbd5e1;">老師嚴格門檻</th><th style="padding:4px; border:1px solid #cbd5e1;">法人考量</th></tr>
+                            <tr><td style="padding:4px; border:1px solid #cbd5e1;">近3年平均ROE</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#1e40af;">> 15%</td><td style="padding:4px; border:1px solid #cbd5e1;">創造超額利潤</td></tr>
+                            <tr><td style="padding:4px; border:1px solid #cbd5e1;">近1年營業利益成長</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#1e40af;">> 20%</td><td style="padding:4px; border:1px solid #cbd5e1;">排除業外灌水</td></tr>
+                            <tr style="background:#fef9c3;"><td style="padding:4px; border:1px solid #cbd5e1;">近1年營業毛利率</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#b91c1c;">> 40% (嚴格!)</td><td style="padding:4px; border:1px solid #cbd5e1;">定價權護城河</td></tr>
+                            <tr><td style="padding:4px; border:1px solid #cbd5e1;">近1年每股營收成長</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#1e40af;">> 30%</td><td style="padding:4px; border:1px solid #cbd5e1;">終端需求擴張</td></tr>
+                            <tr><td style="padding:4px; border:1px solid #cbd5e1;">近5年每股自由現金流</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#1e40af;">> 0 元</td><td style="padding:4px; border:1px solid #cbd5e1;">真金白銀入袋</td></tr>
+                            <tr><td style="padding:4px; border:1px solid #cbd5e1;">近1年盈餘再投資率</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#1e40af;">< 80%</td><td style="padding:4px; border:1px solid #cbd5e1;">防盲目擴張斷鏈</td></tr>
+                            <tr style="background:#fef9c3;"><td style="padding:4px; border:1px solid #cbd5e1;">近四季資本支出/股本</td><td style="padding:4px; border:1px solid #cbd5e1; font-weight:700; color:#b91c1c;">> 40%</td><td style="padding:4px; border:1px solid #cbd5e1;">大訂單擴產信心</td></tr>
+                        </table>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('XQ 法人選股七大關鍵因子設定步驟與毛利 40% 門檻？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 16: 估價折現與年化報酬率 -->
+                <div class="kb-card" data-category="formula 1107 1114" data-search="折現公式 ebit k 利率 估值 升息 年化報酬率 cagr">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">📐 折現估值 & 年化報酬率</span>
+                        <span class="card-cat-badge formula-badge">📐 公式字典</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>1. 企業價值折現估值公式：</strong></p>
+                        <div class="formula-box">
+                            $$V = \frac{\text{EBIT}}{K}$$
+                        </div>
+                        <p>• EBIT = 息稅前營運利潤，K = 市場要求必要報酬率（折現率）。<br>
+                        • <strong>Fed 升息</strong> $\rightarrow$ K 拉大分母變大 $\rightarrow$ 科技股估值大幅縮水；降息則推升估值。</p>
+                        <p><strong>2. 複利年化報酬率（CAGR）：</strong></p>
+                        <div class="formula-box">
+                            $$\text{年化報酬率} = \left(\frac{\text{期末總資產}}{\text{期初本金}}\right)^{\frac{1}{n}} - 1$$
+                        </div>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('Fed 利率折現公式 V = EBIT / K 如何牽動科技股估值？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 17: K 線魚板與竹籤 -->
+                <div class="kb-card" data-category="kline 1121" data-search="k線 魚板 竹籤 光頭陽線 鐵鎚線 陰線 t字線 一字線 跌停 漲停 基亞">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">🍢 K 線魚板竹籤型態</span>
+                        <span class="card-cat-badge kline-badge">🍢 K線心戰</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>老師生動譬喻：</strong>中間開盤收盤包圍的實體是「魚板的肉」，上下影線是「穿過魚板的竹籤」。紅K陽線多方勝，綠K陰線空方勝。</p>
+                        <p><strong>🔥 經典型態次日多空機率：</strong><br>
+                        • <strong>光頭大陽線（無竹籤）</strong>：開最低收最高，多方毫無退縮，次日續漲機率最高！<br>
+                        • <strong>帶長下影線陽線</strong>：盤中殺低被強勁買盤拉回，勝過留長上影線。<br>
+                        • <strong>鐵鎚線（Hammer）</strong>：下影線極長、上方肉極小，底部強力反撲先兆。<br>
+                        • <strong>一字線（漲跌停鎖死）</strong>：基亞（3176）炒作本夢比連爆 17 根無量跌停一字線，無獲利股票千萬碰不得！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('什麼是 K 線的魚板與竹籤？鐵鎚線與一字線分別代表什麼？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 18: 漲停次日回撤 1/3 掛單絕技 -->
+                <div class="kb-card" data-category="kline 1121" data-search="回撤 1/3 掛單 漲停 隔日沖 洗盤 利差 當沖 波段">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">🍢 漲停回撤 1/3 掛單絕技</span>
+                        <span class="card-cat-badge kline-badge">🍢 K線心戰</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <div class="kb-highlight-callout">
+                            🎯 <strong>隔日沖主力剋星：</strong>強勢股今天鎖漲停，隔天千萬別急著開盤市價搶追，小心被隔日沖主力倒貨套牢！
+                        </div>
+                        <p><strong>掛單實戰 SOP：</strong><br>
+                        ① 把昨天漲停長紅 K 棒拿出來，用十字游標量出「實體長度」。<br>
+                        ② 掛在昨天實體<strong>上緣回撤 1/3 處</strong>，或回測 <strong>1/2（一半）</strong> 處掛單等著！<br>
+                        ③ 盤中主力洗盤摜壓時往往精準成交，尾盤再次被買盤拉起收高，當天輕鬆拉開 <strong>3%～5%</strong> 安全利差，可當沖獲利落袋或安心轉波段！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('漲停次日回撤 1/3 掛單操作法的掛單步驟與心理機制？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 19: 零股插旗策略 -->
+                <div class="kb-card" data-category="kline 1121" data-search="插旗策略 flag-planting 零股 5股 10股 川湖 賣飛 戰勝人性 35738">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">🚩 零股插旗策略 (Flag-Planting)</span>
+                        <span class="card-cat-badge kline-badge">🍢 K線心戰</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>克服散戶兩大人性弱點：</strong><br>
+                        ① 大跌時想買在最低點一路觀望不敢買，V 轉拉上去又不敢追。<br>
+                        ② 獲利全數賣光後注意力轉移，徹底錯失後續大波段（老師川湖 5,700~6,000 賣光後飆到 13,000 的痛）。</p>
+                        <div class="kb-highlight-callout">
+                            ⛳ <strong>操作秘訣：</strong>在優質標的跌進合理估值時，先買進 <strong>5 股、10 股或 20 股</strong> 零股插在庫存帳戶裡！每天開盤看到它，就會持續追蹤籌碼變化，等支撐打底完成、趨勢確立轉正時，再大筆分批加碼現股！
+                        </div>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('什麼是零股插旗策略？為什麼買 5 股 10 股能戰勝散戶人性？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 20: 散戶保命三大紀律 -->
+                <div class="kb-card" data-category="kline 1121" data-search="散戶保命三大紀律 融資 槓桿 獲利了結 紙上富貴 精研股性 咖啡">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">🛡️ 散戶保命三大紀律</span>
+                        <span class="card-cat-badge kline-badge">🍢 K線心戰</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>🚫 紀律一：絕對禁止融資與借錢買股票</strong><br>
+                        大跌是融資多殺多連鎖斷頭造成的。現股閒錢哪怕帳面套牢 20%、30%，公司獲利在成長每年配息，根本不用怕，放著總會漲回來！</p>
+                        <p><strong>💰 紀律二：每個月落實獲利了結，拒絕「紙上富貴」</strong><br>
+                        牛市帳面幾百萬沒賣出都是紙上富貴。每個月衝進昂貴價就分批賣出，把錢收進真正的現金池。手中握有每個月落袋的價差，大跌時才能優雅喝咖啡看劇等待下一個底部！</p>
+                        <p><strong>🔍 紀律三：精研 1～2 檔強勢龍頭，徹底打通「股性」</strong><br>
+                        不要到處打聽明牌買二三十檔。挑 1~2 檔高毛利龍頭（台積電、奇鋐）解剖式研究，大盤一年送 2~3 次恐慌錯殺買點時敢重倉出手！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('散戶保命三大紀律的核心精神與實踐方式？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 21: 資金金字塔與定期定額切三旬 -->
+                <div class="kb-card" data-category="kline 1114" data-search="資金金字塔 定期定額 切三旬 分批建倉 10% 20% 30% 基金">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">⏳ 資金金字塔 & 定期定額切三旬</span>
+                        <span class="card-cat-badge kline-badge">🍢 K線心戰</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>🔺 資金進場金字塔：</strong><br>
+                        • 第一階段（低檔試水溫）：投入 <strong>10%</strong> 資金。<br>
+                        • 第二階段（拉回確認支撐）：加碼 <strong>20%</strong> 資金。<br>
+                        • 第三階段（放量起跑多頭確立）：投入剩餘 <strong>30%</strong> 資金。<br>
+                        嚴禁一次單筆買滿，金字塔分批建倉立於不敗！</p>
+                        <p><strong>📅 定期定額拆單切三旬法：</strong><br>
+                        每月扣款 12,000 元千萬別單日扣，拆成三筆各 4,000 元：初旬（1~10號）、中旬（11~20號）、下旬（21~30號）各扣一次，平滑熨平短線追高風險！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('資金進場金字塔與定期定額拆單切三旬法？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+                <!-- 卡片 22: 三大保命出場警訊與總經大局 -->
+                <div class="kb-card" data-category="kline 1107" data-search="三大出場警訊 均線3天不站回 cpi 3.5% gdp 負成長 爸爸是美國 渡邊太太 日圓套利 m1b m2">
+                    <div class="kb-card-header">
+                        <span class="card-ticker">🚨 三大出場警訊 & 總經大局</span>
+                        <span class="card-cat-badge kline-badge">🍢 K線心戰</span>
+                    </div>
+                    <div class="kb-card-body">
+                        <p><strong>🚨 三大保命出場警訊：</strong><br>
+                        ① <strong>均線三天不站回</strong>：跌破月線或季線且三天內無法有效收復，無條件減碼停損！<br>
+                        ② <strong>月度 CPI 通膨率突破 3.5%</strong>：央行急進升息緊縮流動性，提高現金部位！<br>
+                        ③ <strong>美國 GDP 出現斷崖式負成長</strong>：景氣實質衰退，清倉離場保命！</p>
+                        <p><strong>🌐 總經大局要點：</strong><br>
+                        • <strong>爸爸是美國</strong>：代工模式命脈在美商手中，緊盯 Fed 貨幣政策。<br>
+                        • <strong>日本國債 260% & 渡邊太太</strong>：零利率借日圓轉存美元套利，日圓升值引發全球拋售黑色星期一。<br>
+                        • <strong>M1B / M2 黃金交叉</strong>：定存轉活存湧入股市，有量才有價！</p>
+                    </div>
+                    <div class="kb-card-footer">
+                        <button class="ask-btn" onclick="askKbCard('三大保命出場警訊與日本渡邊太太套利交易連鎖反應？')">💬 詢問助教</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    <div class="container" id="mainContainer">
         <!-- 側邊欄：音訊播放與主題 -->
         <div class="sidebar">
             <!-- 1114 音訊清單 -->
@@ -1123,14 +1877,26 @@
             document.getElementById('tab1121').classList.toggle('active', courseId === '1121');
             document.getElementById('tab1114').classList.toggle('active', courseId === '1114');
             document.getElementById('tab1107').classList.toggle('active', courseId === '1107');
+            document.getElementById('tabKB').classList.toggle('active', courseId === 'kb');
 
-            document.getElementById('audioSection1121').style.display = courseId === '1121' ? 'block' : 'none';
-            document.getElementById('audioSection1114').style.display = courseId === '1114' ? 'block' : 'none';
-            document.getElementById('audioSection1107').style.display = courseId === '1107' ? 'block' : 'none';
+            const kbSec = document.getElementById('kbSection');
 
-            document.getElementById('topics1121').style.display = courseId === '1121' ? 'block' : 'none';
-            document.getElementById('topics1114').style.display = courseId === '1114' ? 'block' : 'none';
-            document.getElementById('topics1107').style.display = courseId === '1107' ? 'block' : 'none';
+            if (courseId === 'kb') {
+                kbSec.style.display = 'block';
+                document.getElementById('audioSection1121').style.display = 'none';
+                document.getElementById('audioSection1114').style.display = 'none';
+                document.getElementById('audioSection1107').style.display = 'none';
+                filterKbCards();
+            } else {
+                kbSec.style.display = 'none';
+                document.getElementById('audioSection1121').style.display = courseId === '1121' ? 'block' : 'none';
+                document.getElementById('audioSection1114').style.display = courseId === '1114' ? 'block' : 'none';
+                document.getElementById('audioSection1107').style.display = courseId === '1107' ? 'block' : 'none';
+
+                document.getElementById('topics1121').style.display = courseId === '1121' ? 'block' : 'none';
+                document.getElementById('topics1114').style.display = courseId === '1114' ? 'block' : 'none';
+                document.getElementById('topics1107').style.display = courseId === '1107' ? 'block' : 'none';
+            }
         }
 
         let isRecognizing = false;
