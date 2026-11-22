@@ -1198,6 +1198,39 @@
                     <!-- 老師課堂黑板特別點評 (若有) -->
                     <div class="teacher-note-banner" id="teacherNoteBanner" style="display:none;"></div>
 
+                    <!-- 👑 該股最適課堂核心估價模型總覽橫幅 (自動識別：科技成長股用PER、中鋼/長榮景氣股用PBR、高股息ETF用殖利率) -->
+                    <div id="primaryValuationBanner" style="background:linear-gradient(135deg, #0c1f3f 0%, #09152b 100%); border:2px solid #38bdf8; border-radius:8px; padding:12px 14px; box-shadow:0 0 18px rgba(56,189,248,0.2);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                            <span style="font-size:14.5px; font-weight:900; color:#38bdf8;" id="primaryModelTitle">👑 該股課堂指定核心估價結果</span>
+                            <span style="font-size:11.5px; font-weight:800; padding:2px 10px; border-radius:4px; background:#0284c7; color:#fff;" id="primaryModelBadge">本益比法 (PER)</span>
+                        </div>
+                        <div style="font-size:12px; color:#cbd5e1; margin-bottom:10px; line-height:1.55;" id="primaryModelReason"></div>
+                        <div class="three-prices-grid">
+                            <div class="price-ladder-box cheap">
+                                <div class="ladder-name" id="priCheapLabel">🟢 便宜價 (低)</div>
+                                <div class="ladder-price" id="priCheapVal">--</div>
+                                <div class="ladder-sub">低檔分批買點</div>
+                            </div>
+                            <div class="price-ladder-box fair">
+                                <div class="ladder-name" id="priFairLabel">🔵 合理價 (中)</div>
+                                <div class="ladder-price" id="priFairVal">--</div>
+                                <div class="ladder-sub">公允價值中樞</div>
+                            </div>
+                            <div class="price-ladder-box expensive">
+                                <div class="ladder-name" id="priExpLabel">🔴 昂貴價 (高)</div>
+                                <div class="ladder-price" id="priExpVal">--</div>
+                                <div class="ladder-sub">分批停利出場</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:8px; background:linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border:1px solid #818cf8; border-radius:6px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <div>
+                                <div style="font-size:11.5px; color:#a5b4fc; font-weight:800;" id="priTargetTitle">🎯 2027 明年預估目標股價 (依最適模型推導)</div>
+                                <div style="font-size:21px; font-weight:900; color:#fff; font-family:'Roboto Mono', monospace;" id="priTargetVal">-- 元</div>
+                            </div>
+                            <div id="priUpsideBadge" style="padding:4px 10px; border-radius:4px; font-weight:900; font-size:13px; font-family:'Roboto Mono', monospace;">--%</div>
+                        </div>
+                    </div>
+
                     <!-- 公式 1：本益比法 (Forward EPS) -->
                     <div class="blackboard-formula-card" id="cardFormula1">
                         <div class="bf-title-row">
@@ -2507,9 +2540,12 @@
         }
 
         function isCyclicalStock(id, industry = '') {
-            const cycleSet = ['2603', '2609', '2615', '2606', '2637', '2002', '1301', '1303', '1326', '6505', '1101', '1102'];
+            const cyclePrefix = id.slice(0, 2);
+            const cycleSet = ['2603', '2609', '2615', '2606', '2637', '2618', '2610', '2002', '2014', '2027', '1301', '1303', '1326', '6505', '1101', '1102', '1802', '1605', '1402'];
             if (cycleSet.includes(id)) return true;
-            if (industry.includes('航運') || industry.includes('鋼鐵') || industry.includes('水泥') || industry.includes('塑膠')) return true;
+            // 台股代號前兩碼：11水泥、13塑膠、14紡織、16電器電纜、18玻璃、19造紙、20鋼鐵、21橡膠、25營建、26航運
+            if (['11', '13', '18', '19', '20', '21', '25', '26'].includes(cyclePrefix)) return true;
+            if (industry.includes('航運') || industry.includes('鋼鐵') || industry.includes('水泥') || industry.includes('塑膠') || industry.includes('建材') || industry.includes('造紙') || industry.includes('玻璃') || industry.includes('油電')) return true;
             return false;
         }
 
@@ -3410,12 +3446,73 @@
                 banner.style.display = 'none';
             }
 
-            // 高亮最適模型
+            // 高亮最適模型並更新頂部「👑 該股課堂指定核心估價結果」總覽卡
             const isCycle = isCyclicalStock(st.id, st.industry);
             const isHighDiv = isHighDivETF(st.id, st.name);
-            document.getElementById('cardFormula1').classList.toggle('recommended-model', !isCycle && !isHighDiv);
-            document.getElementById('cardFormula2').classList.toggle('recommended-model', isCycle || st.id === '2059');
+            const isTinyEpsOrHighPer = (st.per > 80 || (calc.fwdEPS > 0 && calc.fwdEPS < st.price * 0.015));
+            const usePbrAsPrimary = isCycle || (isTinyEpsOrHighPer && !isHighDiv && st.bps > 0);
+
+            document.getElementById('cardFormula1').classList.toggle('recommended-model', !usePbrAsPrimary && !isHighDiv);
+            document.getElementById('cardFormula2').classList.toggle('recommended-model', usePbrAsPrimary || st.id === '2059');
             document.getElementById('cardFormula3').classList.toggle('recommended-model', isHighDiv || st.id === '3293');
+
+            // 渲染頂部「👑 該股課堂指定核心估價結果」總覽橫幅
+            const priTitle = document.getElementById('primaryModelTitle');
+            const priBadge = document.getElementById('primaryModelBadge');
+            const priReason = document.getElementById('primaryModelReason');
+            let pCheap = calc.perCheap, pFair = calc.perFair, pExp = calc.perExp, pTarget = calc.target2027;
+
+            if (usePbrAsPrimary) {
+                pCheap = calc.pbrCheap; pFair = calc.pbrFair; pExp = calc.pbrExp;
+                pTarget = st.classTarget2027 > 0 ? st.classTarget2027 : calc.pbrFair;
+                priTitle.innerText = `👑 ${st.name} (${st.id}) 課堂指定核心估價：請看【公式 2：股價淨值比法 (PBR)】`;
+                priTitle.style.color = '#34d399';
+                priBadge.innerText = '景氣循環 / 資產淨值型 (PBR)';
+                priBadge.style.background = '#065f46';
+                priReason.innerHTML = `💡 <strong>為什麼不能看公式 1 的本益比？</strong> 老師在課堂特別強調：像 <strong>${st.name}</strong> 這類景氣循環股（鋼鐵/航運/塑化/水泥）或處於獲利低谷期的公司，當景氣低迷時 EPS 趨近於 0（近四季僅 ${st.ttmEPS} 元、本益比高達 ${st.per || '數百'} 倍），若用本益比法乘出來只剩 $${calc.perFair} 元會完全失真！<strong>必須改用【公式 2：每股淨值 $${st.bps} × 歷年淨值比 PBR】來算才準確！</strong>`;
+                document.getElementById('priCheapLabel').innerText = '🟢 PBR 便宜價 (低)';
+                document.getElementById('priFairLabel').innerText = '🔵 PBR 合理價 (中)';
+                document.getElementById('priExpLabel').innerText = '🔴 PBR 昂貴價 (高)';
+            } else if (isHighDiv) {
+                pCheap = calc.divCheap; pFair = calc.divFair; pExp = calc.divExp;
+                pTarget = calc.divFair;
+                priTitle.innerText = `👑 ${st.name} (${st.id}) 課堂指定核心估價：請看【公式 3：股息殖利率法】`;
+                priTitle.style.color = '#facc15';
+                priBadge.innerText = '高股息殖利率型 (8% / 6% / 4.5%)';
+                priBadge.style.background = '#854d0e';
+                priReason.innerHTML = `💡 <strong>課堂高股息估價法則：</strong> <strong>${st.name}</strong> 為高股息配息型標的（現金股利 $${st.cashDiv} 元），應以 <strong>8% 殖利率作為便宜買點 ($${pCheap})、6% 殖利率作為合理中樞 ($${pFair})、4.5% 殖利率作為昂貴停利區 ($${pExp})</strong>。`;
+                document.getElementById('priCheapLabel').innerText = '🟢 8%殖利率 便宜價';
+                document.getElementById('priFairLabel').innerText = '🔵 6%殖利率 合理價';
+                document.getElementById('priExpLabel').innerText = '🔴 4.5%殖利率 昂貴價';
+            } else {
+                pCheap = calc.perCheap; pFair = calc.perFair; pExp = calc.perExp;
+                pTarget = calc.perTarget2027;
+                priTitle.innerText = `👑 ${st.name} (${st.id}) 課堂指定核心估價：請看【公式 1：本益比法 (PER)】`;
+                priTitle.style.color = '#38bdf8';
+                priBadge.innerText = '成長股 / 市值型本益比法 (PER)';
+                priBadge.style.background = '#0284c7';
+                priReason.innerHTML = `💡 <strong>課堂成長股估價法則：</strong> <strong>${st.name}</strong> 具備實質獲利動能（預估次年 EPS <strong>${calc.fwdEPS} 元</strong>），以歷年常態本益比區間（<strong>${st.lowPER}倍 ～ ${st.highPER}倍</strong>）推算低中高合理價。`;
+                document.getElementById('priCheapLabel').innerText = '🟢 PER 便宜價 (低)';
+                document.getElementById('priFairLabel').innerText = '🔵 PER 合理價 (中)';
+                document.getElementById('priExpLabel').innerText = '🔴 PER 昂貴價 (高)';
+            }
+
+            document.getElementById('priCheapVal').innerText = pCheap > 0 ? ('$' + pCheap.toLocaleString()) : '不適用';
+            document.getElementById('priFairVal').innerText = pFair > 0 ? ('$' + pFair.toLocaleString()) : '不適用';
+            document.getElementById('priExpVal').innerText = pExp > 0 ? ('$' + pExp.toLocaleString()) : '不適用';
+            document.getElementById('priTargetVal').innerText = pTarget > 0 ? ('$' + pTarget.toLocaleString() + ' 元') : '虧損觀望';
+            const pUpPct = (pTarget > 0 && st.price > 0) ? Number((((pTarget - st.price) / st.price) * 100).toFixed(1)) : 0;
+            const priUpEl = document.getElementById('priUpsideBadge');
+            if (pTarget > 0) {
+                priUpEl.innerText = (pUpPct >= 0 ? '+' : '') + pUpPct + '% 潛在空間';
+                priUpEl.style.background = pUpPct >= 0 ? '#064e3b' : '#450a0a';
+                priUpEl.style.color = pUpPct >= 0 ? '#34d399' : '#fca5a5';
+                priUpEl.style.border = '1px solid ' + (pUpPct >= 0 ? '#10b981' : '#ef4444');
+            } else {
+                priUpEl.innerText = '⚠️ 課堂淘汰警戒';
+                priUpEl.style.background = '#450a0a';
+                priUpEl.style.color = '#fca5a5';
+            }
 
             // ---------------- 公式 1：本益比法 (PER & Forward EPS) ----------------
             const qEpsStr = (st.qEPS && st.qEPS.length)
@@ -3430,6 +3527,10 @@
                 <div>• 歷年真實加權 PER 區間：最低 <strong style="color:#6ee7b7;">${st.lowPER} 倍</strong> ／ 平均 <strong style="color:#7dd3fc;">${st.avgPER} 倍</strong> ／ 最高 <strong style="color:#fca5a5;">${st.highPER} 倍</strong></div>
             `;
 
+            const cycleWarningHtml = usePbrAsPrimary
+                ? `<div style="background:#422006; border:1px solid #f59e0b; color:#fef08a; padding:6px 10px; border-radius:4px; margin-bottom:6px; font-weight:800;">⚠️ 課堂警告：${st.name} 為景氣循環或微利股（近四季 EPS 僅 ${st.ttmEPS} 元），用本益比算出的 $${calc.perFair} 元嚴重失真！請看上方總覽卡或下方【2️⃣ 股價淨值比法 (PBR)：便宜 $${calc.pbrCheap} / 合理 $${calc.pbrFair} / 昂貴 $${calc.pbrExp}】！</div>`
+                : '';
+
             if (calc.fwdEPS > 0) {
                 let targetFormulaText = `預估EPS ${calc.fwdEPS} × 合理PER ${st.avgPER} = ${calc.perFair} 元`;
                 if (st.id === '2330') targetFormulaText = `2027保守EPS 143.0 × 歷年最低加權PER 18.0倍 = 2,574 元 (樂觀28倍 = 4,004 元)`;
@@ -3438,26 +3539,29 @@
                 else if (st.id === '3017') targetFormulaText = `FactSet共識EPS 156.83 × 法人共識PER 25.5倍 = 4,000 元`;
 
                 document.getElementById('eqFormula1').innerHTML = `
+                    ${cycleWarningHtml}
                     <div>🟢 <strong>便宜價算式</strong> = 預估EPS ${calc.fwdEPS} × 最低PER ${st.lowPER} = <strong>$${calc.perCheap.toLocaleString()} 元</strong></div>
                     <div>🔵 <strong>合理價算式</strong> = 預估EPS ${calc.fwdEPS} × 平均PER ${st.avgPER} = <strong>$${calc.perFair.toLocaleString()} 元</strong></div>
                     <div>🔴 <strong>昂貴價算式</strong> = 預估EPS ${calc.fwdEPS} × 最高PER ${st.highPER} = <strong>$${calc.perExp.toLocaleString()} 元</strong></div>
-                    <div style="color:#c4b5fd; margin-top:3px;">🎯 <strong>2027目標算式</strong> = ${targetFormulaText}</div>
+                    <div style="color:#c4b5fd; margin-top:3px;">🎯 <strong>2027目標算式</strong> = ${usePbrAsPrimary ? `此股不適用PER目標價，請採【公式2 PBR合理價 $${calc.pbrFair} 元】` : targetFormulaText}</div>
                 `;
             } else {
                 document.getElementById('eqFormula1').innerHTML = `<div style="color:#fca5a5;">⚠️ 該股近四季與預估 EPS 為負數（虧損無本益比），依課堂紀律不可使用本益比法估價！</div>`;
             }
 
-            document.getElementById('perCheapVal').innerText = calc.perCheap > 0 ? ('$' + calc.perCheap.toLocaleString()) : '不適用';
-            document.getElementById('perFairVal').innerText = calc.perFair > 0 ? ('$' + calc.perFair.toLocaleString()) : '不適用';
-            document.getElementById('perExpVal').innerText = calc.perExp > 0 ? ('$' + calc.perExp.toLocaleString()) : '不適用';
-            document.getElementById('nextYearTargetVal').innerText = calc.perTarget2027 > 0 ? ('$' + calc.perTarget2027.toLocaleString() + ' 元') : '虧損不予目標價';
+            document.getElementById('perCheapVal').innerText = usePbrAsPrimary ? `不適用 ($${calc.perCheap})` : (calc.perCheap > 0 ? ('$' + calc.perCheap.toLocaleString()) : '不適用');
+            document.getElementById('perFairVal').innerText = usePbrAsPrimary ? `請看PBR ($${calc.pbrFair})` : (calc.perFair > 0 ? ('$' + calc.perFair.toLocaleString()) : '不適用');
+            document.getElementById('perExpVal').innerText = usePbrAsPrimary ? `不適用 ($${calc.perExp})` : (calc.perExp > 0 ? ('$' + calc.perExp.toLocaleString()) : '不適用');
+            const card1Target = usePbrAsPrimary ? calc.pbrFair : calc.perTarget2027;
+            const card1Upside = (card1Target > 0 && st.price > 0) ? Number((((card1Target - st.price) / st.price) * 100).toFixed(1)) : 0;
+            document.getElementById('nextYearTargetVal').innerText = card1Target > 0 ? ('$' + card1Target.toLocaleString() + (usePbrAsPrimary ? ' 元 (採PBR合理價)' : ' 元')) : '虧損不予目標價';
 
             const upBadge = document.getElementById('nextYearUpsideBadge');
-            if (calc.perTarget2027 > 0) {
-                upBadge.innerText = (calc.perUpsidePct >= 0 ? '+' : '') + calc.perUpsidePct + '% 潛在空間';
-                upBadge.style.background = calc.perUpsidePct >= 0 ? '#064e3b' : '#450a0a';
-                upBadge.style.color = calc.perUpsidePct >= 0 ? '#34d399' : '#fca5a5';
-                upBadge.style.border = '1px solid ' + (calc.perUpsidePct >= 0 ? '#10b981' : '#ef4444');
+            if (card1Target > 0) {
+                upBadge.innerText = (card1Upside >= 0 ? '+' : '') + card1Upside + '% 潛在空間';
+                upBadge.style.background = card1Upside >= 0 ? '#064e3b' : '#450a0a';
+                upBadge.style.color = card1Upside >= 0 ? '#34d399' : '#fca5a5';
+                upBadge.style.border = '1px solid ' + (card1Upside >= 0 ? '#10b981' : '#ef4444');
             } else {
                 upBadge.innerText = '⚠️ 課堂淘汰警戒';
                 upBadge.style.background = '#450a0a';
