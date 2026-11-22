@@ -732,7 +732,321 @@
             }
         }
 
-    </style>
+    
+
+        /* 估價計算機專屬樣式 */
+        .calc-container {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .calc-header-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .calc-title-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .calc-title-bar h2 {
+            margin: 0;
+            color: #065f46;
+            font-size: 1.35rem;
+        }
+
+        .calc-input-panel {
+            margin-top: 18px;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .calc-search-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            outline: none;
+            background: #ffffff;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .calc-execute-btn {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            font-weight: 700;
+            padding: 11px 22px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .calc-execute-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .quick-stock-pills {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .stock-pill {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .stock-pill:hover {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: #10b981;
+        }
+
+        .calc-result-grid {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 18px;
+        }
+
+        .result-main-card, .result-side-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px 22px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .model-badge-banner {
+            background: #eff6ff;
+            color: #1e40af;
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 4px solid #3b82f6;
+            margin-bottom: 16px;
+        }
+
+        .price-ladder-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .ladder-step {
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .cheap-step {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+
+        .cheap-step .step-label { color: #065f46; font-size: 0.78rem; font-weight: 700; }
+        .cheap-step .step-price { color: #059669; font-size: 1.45rem; font-weight: 800; margin: 4px 0; }
+        .cheap-step .step-sub { color: #047857; font-size: 0.72rem; }
+
+        .fair-step {
+            background: #fefce8;
+            border-color: #fef08a;
+        }
+
+        .fair-step .step-label { color: #854d0e; font-size: 0.78rem; font-weight: 700; }
+        .fair-step .step-price { color: #d97706; font-size: 1.45rem; font-weight: 800; margin: 4px 0; }
+        .fair-step .step-sub { color: #b45309; font-size: 0.72rem; }
+
+        .exp-step {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .exp-step .step-label { color: #991b1b; font-size: 0.78rem; font-weight: 700; }
+        .exp-step .step-price { color: #dc2626; font-size: 1.45rem; font-weight: 800; margin: 4px 0; }
+        .exp-step .step-sub { color: #b91c1c; font-size: 0.72rem; }
+
+        .forward-target-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+        }
+
+        .forward-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .fwd-badge {
+            background: #0ea5e9;
+            color: white;
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .forward-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .fwd-k { font-size: 0.75rem; color: #64748b; font-weight: 600; }
+        .fwd-v { font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 2px 0; }
+        .fwd-desc { font-size: 0.7rem; color: #94a3b8; }
+
+        .teacher-insight-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 12px 14px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .score-pill {
+            background: #ecfdf5;
+            color: #065f46;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid #a7f3d0;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.84rem;
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-status-pass {
+            color: #059669;
+            font-weight: 700;
+            background: #ecfdf5;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .check-status-warn {
+            color: #dc2626;
+            font-weight: 700;
+            background: #fee2e2;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .custom-param-accordion {
+            margin-top: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.82rem;
+        }
+
+        .custom-param-accordion summary {
+            padding: 8px 12px;
+            font-weight: 700;
+            color: #475569;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .custom-inputs-box {
+            padding: 10px 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .custom-input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .custom-input-row label { color: #64748b; font-size: 0.78rem; }
+        .custom-input-row input { width: 90px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; text-align: right; }
+
+        @media (max-width: 900px) {
+            .calc-result-grid {
+                grid-template-columns: 1fr;
+            }
+            .price-ladder-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+</style>
 </head>
 <body>
 
@@ -756,10 +1070,191 @@
         <button class="tab-btn active" id="tab1121" onclick="switchCourse('1121')">🔥 1121 估價與手算大課</button>
         <button class="tab-btn" id="tab1114" onclick="switchCourse('1114')">✨ 1114 財務選股</button>
         <button class="tab-btn" id="tab1107" onclick="switchCourse('1107')">📚 1107 總經主力</button>
+        <button class="tab-btn" id="tabCalc" onclick="switchCourse('calc')" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; font-weight: 700;">🧮 股票估價與好股診斷機</button>
         <button class="tab-btn" id="tabKB" onclick="switchCourse('kb')" style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; font-weight: 700;">🔍 3天全科速查知識庫</button>
     </div>
 
     
+
+        <!-- 股票估價與好股診斷機 (NEW!) -->
+        <div id="calcSection" style="display: none;">
+
+        <!-- 全自動智慧估價計算機與好股篩選器 (NEW!) -->
+        <div id="calcSection" class="calc-container" style="display: none;">
+            <div class="calc-header-card card">
+                <div class="calc-title-bar">
+                    <h2>🧮 成大投資實戰 全自動股票估價機 & 好股診斷器</h2>
+                    <span class="badge-tag" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">正統成大算法 · 低中高合理價一鍵秒算</span>
+                </div>
+                <p style="color: #64748b; font-size: 0.9rem; margin-top: 6px;">
+                    輸入任何台股代號（如 2330, 2059, 2360, 2603）或點選快速按鈕，系統自動匹配「本益比法 (PER)」、「淨值比法 (PBR)」或「殖利率法」，立刻精算<strong>【便宜價 / 合理價 / 昂貴價】</strong>與<strong>【明年/次年度預估目標價】</strong>，並以課堂 7 大標準嚴格診斷是否為好股票！
+                </p>
+
+                <!-- 股票搜尋與自訂輸入欄 -->
+                <div class="calc-input-panel">
+                    <div class="calc-search-row">
+                        <div class="input-group" style="flex: 2;">
+                            <label>🔍 輸入股票代號或名稱：</label>
+                            <input type="text" id="calcStockInput" placeholder="輸入 2330 或 台積電、2059 川湖、2360、2603..." oninput="autoSuggestStock()">
+                        </div>
+                        <div class="input-group" style="flex: 1;">
+                            <label>📊 選擇估價模型：</label>
+                            <select id="calcMethodSelect" onchange="recalculatePrice()">
+                                <option value="auto">⚡ 系統智慧自動匹配</option>
+                                <option value="per">📈 本益比法 (PER 成長科技股)</option>
+                                <option value="pbr">🚢 股價淨值比法 (PBR 景氣循環股)</option>
+                                <option value="yield">💰 股息殖利率法 (高股息/公用股)</option>
+                            </select>
+                        </div>
+                        <button class="calc-execute-btn" onclick="executeValuation()">開始估算合理價 ➔</button>
+                    </div>
+
+                    <!-- 快速選擇熱門與課堂個股 -->
+                    <div class="quick-stock-pills">
+                        <span style="font-size: 0.78rem; color: #64748b; font-weight: 700;">課堂熱門股一鍵帶入：</span>
+                        <button class="stock-pill" onclick="selectStock('2330')">💎 台積電 2330</button>
+                        <button class="stock-pill" onclick="selectStock('2059')">⚙️ 川湖 2059</button>
+                        <button class="stock-pill" onclick="selectStock('2360')">📝 致茂 2360</button>
+                        <button class="stock-pill" onclick="selectStock('3017')">❄️ 奇鋐 3017</button>
+                        <button class="stock-pill" onclick="selectStock('3293')">🎮 鈊象 3293</button>
+                        <button class="stock-pill" onclick="selectStock('2603')">🚢 長榮 2603</button>
+                        <button class="stock-pill" onclick="selectStock('2345')">🌐 智邦 2345</button>
+                        <button class="stock-pill" onclick="selectStock('00692')">🏆 00692 公司治理</button>
+                        <button class="stock-pill" onclick="selectStock('0056')">💰 0056 高股息</button>
+                        <button class="stock-pill" onclick="selectStock('3176')">⚠️ 基亞 (地雷)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 估算結果與好股診斷主面板 -->
+            <div class="calc-result-grid" id="calcResultGrid" style="display: none;">
+                
+                <!-- 左側：估值三階梯大卡片 -->
+                <div class="result-main-card card">
+                    <div class="result-header">
+                        <div>
+                            <h3 id="resStockTitle" style="margin: 0; font-size: 1.5rem; color: #1e3a8a;">2330 台積電</h3>
+                            <span id="resIndustryTag" style="font-size: 0.8rem; color: #64748b;">晶圓代工與先進封裝 · 成長型科技股</span>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.75rem; color: #64748b;">參考現價</div>
+                            <div id="resCurrentPrice" style="font-size: 1.6rem; font-weight: 800; color: #0f172a;">2,000 元</div>
+                        </div>
+                    </div>
+
+                    <!-- 估價模型標籤 -->
+                    <div id="resModelBadge" class="model-badge-banner">
+                        📐 採用成大正統模型：【本益比評價法 (PER)】（以次年度預估 EPS × 歷年加權本益比）
+                    </div>
+
+                    <!-- 三大合理價階梯 -->
+                    <div class="price-ladder-box">
+                        <div class="ladder-step cheap-step">
+                            <div class="step-label">🟢 便宜價（安全買點）</div>
+                            <div class="step-price" id="resCheapPrice">2,574 元</div>
+                            <div class="step-sub" id="resCheapSub">送分題買點 / 歷年最低倍數</div>
+                        </div>
+                        <div class="ladder-step fair-step">
+                            <div class="step-label">🟡 合理價（公允價值）</div>
+                            <div class="step-price" id="resFairPrice">3,146 元</div>
+                            <div class="step-sub" id="resFairSub">基本面完全反映 / 平均倍數</div>
+                        </div>
+                        <div class="ladder-step exp-step">
+                            <div class="step-label">🔴 昂貴價（停利警戒）</div>
+                            <div class="step-price" id="resExpPrice">4,004 元</div>
+                            <div class="step-sub" id="resExpSub">透支過熱 / 分批獲利了結</div>
+                        </div>
+                    </div>
+
+                    <!-- 明年 / 次年度預估目標價專區 -->
+                    <div class="forward-target-card">
+                        <div class="forward-title">
+                            <span>🚀 明年（次年度）預估目標股價推演</span>
+                            <span class="fwd-badge" id="resForwardTag">2027 年法人預估</span>
+                        </div>
+                        <div class="forward-body">
+                            <div class="fwd-col">
+                                <div class="fwd-k">未來預估 EPS</div>
+                                <div class="fwd-v" id="resForwardEPS">143.0 元</div>
+                                <div class="fwd-desc" id="resForwardEpsDesc">市場保守預估中位數</div>
+                            </div>
+                            <div class="fwd-col">
+                                <div class="fwd-k">歷年平均 PER / PBR</div>
+                                <div class="fwd-v" id="resForwardMultiple">22.0 倍</div>
+                                <div class="fwd-desc">加權平均倍數</div>
+                            </div>
+                            <div class="fwd-col" style="background: #ecfdf5; border-radius: 8px; padding: 6px;">
+                                <div class="fwd-k" style="color: #065f46;">明年預估合理目標</div>
+                                <div class="fwd-v" id="resForwardTarget" style="color: #059669; font-size: 1.5rem;">3,146 元</div>
+                                <div class="fwd-desc" id="resUpsidePot" style="color: #047857; font-weight: 700;">潛在空間：+57.3%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 課堂實戰教導與主力心戰 -->
+                    <div class="teacher-insight-box">
+                        <div style="font-weight: 700; color: #1e3a8a; margin-bottom: 4px;">👨‍🏫 老師課堂實戰提點與主力心法：</div>
+                        <div id="resTeacherNotes" style="font-size: 0.86rem; line-height: 1.7; color: #334155;">
+                            台積電被外資結帳賣壓摜壓至 2,000 元大關，實質本益比僅 14 倍，處於歷史河流圖極度下緣，老天爺送錢買點！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：課堂 7 大好股票嚴格檢驗清單 -->
+                <div class="result-side-card card">
+                    <h3 style="margin-top: 0; font-size: 1.15rem; color: #1e3a8a; display: flex; align-items: center; justify-content: space-between;">
+                        <span>📋 課堂 7 大好股票檢驗清單</span>
+                        <span id="resPassBadge" class="score-pill">7/7 項全部通過</span>
+                    </h3>
+                    <p style="font-size: 0.8rem; color: #64748b; margin-top: 0;">
+                        依據成大課堂標準嚴格逐條把關，杜絕沒有獲利的假成長股與地雷股！
+                    </p>
+
+                    <div class="check-list-container" id="checkListContainer">
+                        <!-- 7 個檢驗條目動態生成 -->
+                    </div>
+
+                    <!-- 快速自訂參數調整 -->
+                    <div class="custom-param-accordion">
+                        <details>
+                            <summary>⚙️ 想自己手動修改參數算算看？點此微調</summary>
+                            <div class="custom-inputs-box">
+                                <div class="custom-input-row">
+                                    <label>自訂預估 EPS / 股利：</label>
+                                    <input type="number" id="custEPS" step="0.1" oninput="recalcWithCustom()">
+                                </div>
+                                <div class="custom-input-row">
+                                    <label>自訂每股淨值 (BPS)：</label>
+                                    <input type="number" id="custBPS" step="0.1" oninput="recalcWithCustom()">
+                                </div>
+                                <div class="custom-input-row">
+                                    <label>最低本益比 / PBR：</label>
+                                    <input type="number" id="custMinMult" step="0.1" oninput="recalcWithCustom()">
+                                </div>
+                                <div class="custom-input-row">
+                                    <label>平均本益比 / PBR：</label>
+                                    <input type="number" id="custAvgMult" step="0.1" oninput="recalcWithCustom()">
+                                </div>
+                                <div class="custom-input-row">
+                                    <label>最高本益比 / PBR：</label>
+                                    <input type="number" id="custMaxMult" step="0.1" oninput="recalcWithCustom()">
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div style="margin-top: 14px; text-align: center;">
+                        <button class="ask-btn" style="width: 100%; padding: 10px; font-size: 0.88rem; background: #4f46e5; color: white; border: none;" onclick="askAssistantAboutCurrentStock()">
+                            💬 讓 AI 助教為我深度剖析這檔股票 ➔
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+
         <!-- 3天全科速查知識庫 (NEW!) -->
         <div id="kbSection" class="kb-container" style="display: none;">
             <div class="kb-header-card card">
@@ -1878,17 +2373,32 @@
             document.getElementById('tab1114').classList.toggle('active', courseId === '1114');
             document.getElementById('tab1107').classList.toggle('active', courseId === '1107');
             document.getElementById('tabKB').classList.toggle('active', courseId === 'kb');
+            const tabCalc = document.getElementById('tabCalc');
+            if (tabCalc) tabCalc.classList.toggle('active', courseId === 'calc');
 
             const kbSec = document.getElementById('kbSection');
+            const calcSec = document.getElementById('calcSection');
 
-            if (courseId === 'kb') {
-                kbSec.style.display = 'block';
+            if (courseId === 'calc') {
+                if (calcSec) calcSec.style.display = 'block';
+                if (kbSec) kbSec.style.display = 'none';
+                document.getElementById('audioSection1121').style.display = 'none';
+                document.getElementById('audioSection1114').style.display = 'none';
+                document.getElementById('audioSection1107').style.display = 'none';
+                document.getElementById('topics1121').style.display = 'none';
+                document.getElementById('topics1114').style.display = 'none';
+                document.getElementById('topics1107').style.display = 'none';
+                if (typeof initCalculator === 'function') initCalculator();
+            } else if (courseId === 'kb') {
+                if (calcSec) calcSec.style.display = 'none';
+                if (kbSec) kbSec.style.display = 'block';
                 document.getElementById('audioSection1121').style.display = 'none';
                 document.getElementById('audioSection1114').style.display = 'none';
                 document.getElementById('audioSection1107').style.display = 'none';
                 filterKbCards();
             } else {
-                kbSec.style.display = 'none';
+                if (calcSec) calcSec.style.display = 'none';
+                if (kbSec) kbSec.style.display = 'none';
                 document.getElementById('audioSection1121').style.display = courseId === '1121' ? 'block' : 'none';
                 document.getElementById('audioSection1114').style.display = courseId === '1114' ? 'block' : 'none';
                 document.getElementById('audioSection1107').style.display = courseId === '1107' ? 'block' : 'none';
@@ -2096,6 +2606,745 @@
                 alert("已成功複製全套指令！您可以直接打開手機上的 Gemini App 或 ChatGPT App 貼上，戴上藍牙耳機即可開啟語音對話囉！");
             });
         }
+
+
+        // 股票資料庫
+        const STOCKS_DATABASE = {
+  "2330": {
+    "name": "台積電",
+    "category": "成長型半導體龍頭",
+    "industry": "晶圓代工與先進封裝",
+    "method": "per",
+    "price": 2000,
+    "hist_per_min": 18.0,
+    "hist_per_avg": 22.0,
+    "hist_per_max": 28.0,
+    "forward_eps": 143.0,
+    "eps_optimistic": 150.0,
+    "hist_pbr_min": 4.5,
+    "hist_pbr_avg": 6.2,
+    "hist_pbr_max": 8.5,
+    "bps": 210.0,
+    "dps": 24.0,
+    "roe": 30.5,
+    "gross_margin": 58.65,
+    "op_margin": 51.09,
+    "debt_ratio": 29.94,
+    "capex_to_capital": 95.0,
+    "quick_ratio": 2.2,
+    "notes": "課堂 1121/1114/1107 核心！被外資結帳賣壓摜壓至 2,000 元整數大關，實質本益比僅 14 倍，處於歷史河流圖極度下緣，老天爺送錢買點！"
+  },
+  "2059": {
+    "name": "川湖",
+    "category": "成長型高毛利龍頭",
+    "industry": "AI 伺服器滑軌導軌",
+    "method": "pbr",
+    "price": 5800,
+    "hist_per_min": 18.5,
+    "hist_per_avg": 21.81,
+    "hist_per_max": 32.0,
+    "forward_eps": 340.0,
+    "eps_optimistic": 463.85,
+    "hist_pbr_min": 5.08,
+    "hist_pbr_avg": 11.34,
+    "hist_pbr_max": 17.6,
+    "bps": 477.02,
+    "dps": 65.0,
+    "roe": 35.0,
+    "gross_margin": 66.8,
+    "op_margin": 54.2,
+    "debt_ratio": 22.5,
+    "capex_to_capital": 136.7,
+    "quick_ratio": 3.5,
+    "notes": "1121 黑板手算資本支出佔股本 136.7%（擴產超大雙面刃）；1114 課堂手算資本支出率僅 9%（專利高現金流印鈔機）。正統 PBR 便宜價 2,423 元、合理價 5,409 元。"
+  },
+  "2360": {
+    "name": "致茂",
+    "category": "成長型設備龍頭",
+    "industry": "半導體量測與自動化檢測設備",
+    "method": "per",
+    "price": 927,
+    "hist_per_min": 19.25,
+    "hist_per_avg": 24.5,
+    "hist_per_max": 32.0,
+    "forward_eps": 60.45,
+    "eps_optimistic": 70.0,
+    "hist_pbr_min": 3.8,
+    "hist_pbr_avg": 5.2,
+    "hist_pbr_max": 7.5,
+    "bps": 125.0,
+    "dps": 22.0,
+    "roe": 22.8,
+    "gross_margin": 52.3,
+    "op_margin": 28.5,
+    "debt_ratio": 35.0,
+    "capex_to_capital": 45.47,
+    "quick_ratio": 1.9,
+    "notes": "1121 學員黑板手算標準合格股！資本支出佔股本 45.47% > 40%（合格大單擴產），2027 年目標價 1,163.6 元，現價 927 元有 25% 肉！"
+  },
+  "3017": {
+    "name": "奇鋐",
+    "category": "成長型散熱龍頭",
+    "industry": "AI 水冷板、分歧管與伺服器散熱",
+    "method": "per",
+    "price": 2050,
+    "hist_per_min": 18.0,
+    "hist_per_avg": 25.0,
+    "hist_per_max": 33.0,
+    "forward_eps": 156.83,
+    "eps_optimistic": 173.39,
+    "hist_pbr_min": 4.2,
+    "hist_pbr_avg": 7.8,
+    "hist_pbr_max": 12.0,
+    "bps": 160.0,
+    "dps": 30.0,
+    "roe": 28.5,
+    "gross_margin": 23.5,
+    "op_margin": 14.8,
+    "debt_ratio": 48.0,
+    "capex_to_capital": 55.0,
+    "quick_ratio": 1.6,
+    "notes": "1121 散熱王者！2027 年 CSP 自研 ASIC 水冷專案將超越 GPU，四大券商本益比共識 25 倍，市場共識目標價 4,000 元（現價約 2,000 元空間翻倍）。"
+  },
+  "3293": {
+    "name": "鈊象",
+    "category": "高毛利數位娛樂龍頭",
+    "industry": "海外網路遊戲與線上掃蕩手遊",
+    "method": "per",
+    "price": 765,
+    "hist_per_min": 15.0,
+    "hist_per_avg": 17.5,
+    "hist_per_max": 22.0,
+    "forward_eps": 54.78,
+    "eps_optimistic": 59.45,
+    "hist_pbr_min": 5.0,
+    "hist_pbr_avg": 7.5,
+    "hist_pbr_max": 11.0,
+    "bps": 68.0,
+    "dps": 37.0,
+    "roe": 52.0,
+    "gross_margin": 97.5,
+    "op_margin": 61.2,
+    "debt_ratio": 18.0,
+    "capex_to_capital": 8.0,
+    "quick_ratio": 4.8,
+    "notes": "1121 98% 天花板毛利率！美國線上掃蕩博弈帶動 2027 營收衝 300 億大關。合理 PER 17~18 倍目標價 930~990 元，回測 700~740 元為安全底線。"
+  },
+  "2603": {
+    "name": "長榮",
+    "category": "景氣循環航運股",
+    "industry": "貨櫃航運",
+    "method": "pbr",
+    "price": 246,
+    "hist_per_min": 2.5,
+    "hist_per_avg": 5.0,
+    "hist_per_max": 12.0,
+    "forward_eps": 32.0,
+    "eps_optimistic": 40.0,
+    "hist_pbr_min": 0.68,
+    "hist_pbr_avg": 1.075,
+    "hist_pbr_max": 1.47,
+    "bps": 281.15,
+    "dps": 23.0,
+    "roe": 19.5,
+    "gross_margin": 32.0,
+    "op_margin": 25.0,
+    "debt_ratio": 38.0,
+    "capex_to_capital": 42.0,
+    "quick_ratio": 1.8,
+    "notes": "1121 溫國信雪球存股法盲點批判！景氣股嚴禁套用 PER，正統 PBR 便宜價 191 元、合理價 302 元、昂貴價 413 元。新船供過於求，接近 300 元堅決停利！"
+  },
+  "2345": {
+    "name": "智邦",
+    "category": "成長型網通伺服器龍頭",
+    "industry": "白牌交換機與 CPO 共同封裝光學",
+    "method": "per",
+    "price": 580,
+    "hist_per_min": 18.0,
+    "hist_per_avg": 24.0,
+    "hist_per_max": 30.0,
+    "forward_eps": 25.5,
+    "eps_optimistic": 28.5,
+    "hist_pbr_min": 4.5,
+    "hist_pbr_avg": 6.8,
+    "hist_pbr_max": 9.5,
+    "bps": 68.0,
+    "dps": 12.0,
+    "roe": 26.5,
+    "gross_margin": 23.0,
+    "op_margin": 14.5,
+    "debt_ratio": 42.0,
+    "capex_to_capital": 45.0,
+    "quick_ratio": 1.7,
+    "notes": "1114/1121 手寫筆記點名注意！800G 交換器與 CPO 互聯頻寬為 AI 集群喉嚨，四大 CSP 白牌交換器龍頭。"
+  },
+  "00692": {
+    "name": "富邦公司治理",
+    "category": "ESG 公司治理 ETF",
+    "industry": "臺灣證券交易所公司治理評鑑前20%",
+    "method": "yield",
+    "price": 42.5,
+    "hist_per_min": 15.0,
+    "hist_per_avg": 18.0,
+    "hist_per_max": 22.0,
+    "forward_eps": 2.6,
+    "eps_optimistic": 3.0,
+    "hist_pbr_min": 1.2,
+    "hist_pbr_avg": 1.5,
+    "hist_pbr_max": 1.9,
+    "bps": 28.5,
+    "dps": 2.2,
+    "roe": 18.0,
+    "gross_margin": 45.0,
+    "op_margin": 32.0,
+    "debt_ratio": 30.0,
+    "capex_to_capital": 50.0,
+    "quick_ratio": 2.5,
+    "notes": "1114 手寫筆記紅圈推薦！臺灣公司治理評鑑前 20% 模範生，低總費用率 0.15%（遠低於 0050 的 0.32%），防作假帳掏空首選。"
+  },
+  "0056": {
+    "name": "元大高股息",
+    "category": "老牌高股息 ETF",
+    "industry": "高現金殖利率藍籌股",
+    "method": "yield",
+    "price": 38.5,
+    "hist_per_min": 12.0,
+    "hist_per_avg": 14.5,
+    "hist_per_max": 17.0,
+    "forward_eps": 2.8,
+    "eps_optimistic": 3.2,
+    "hist_pbr_min": 1.0,
+    "hist_pbr_avg": 1.2,
+    "hist_pbr_max": 1.45,
+    "bps": 32.0,
+    "dps": 3.6,
+    "roe": 15.0,
+    "gross_margin": 35.0,
+    "op_margin": 22.0,
+    "debt_ratio": 25.0,
+    "capex_to_capital": 30.0,
+    "quick_ratio": 2.0,
+    "notes": "1121 課堂示範老牌 ETF！累積豐厚『已實現資本利得老本池』，大跌依舊有老本配息；對照新發行 ETF 無老本暴跌砍配息陷阱。"
+  },
+  "00878": {
+    "name": "國泰永續高股息",
+    "category": "ESG 高股息 ETF",
+    "industry": "ESG 評鑑與高殖利率標的",
+    "method": "yield",
+    "price": 22.8,
+    "hist_per_min": 13.0,
+    "hist_per_avg": 15.0,
+    "hist_per_max": 18.0,
+    "forward_eps": 1.6,
+    "eps_optimistic": 1.9,
+    "hist_pbr_min": 1.05,
+    "hist_pbr_avg": 1.25,
+    "hist_pbr_max": 1.45,
+    "bps": 19.5,
+    "dps": 1.6,
+    "roe": 16.5,
+    "gross_margin": 38.0,
+    "op_margin": 25.0,
+    "debt_ratio": 28.0,
+    "capex_to_capital": 35.0,
+    "quick_ratio": 2.2,
+    "notes": "1121 課堂適用股息殖利率換算法（6% 基準 / 7~10% 恐慌買點）。"
+  },
+  "2454": {
+    "name": "聯發科",
+    "category": "成長型 IC 設計龍頭",
+    "industry": "手機晶片與 AI ASIC",
+    "method": "per",
+    "price": 1280,
+    "hist_per_min": 14.0,
+    "hist_per_avg": 18.5,
+    "hist_per_max": 25.0,
+    "forward_eps": 75.0,
+    "eps_optimistic": 85.0,
+    "hist_pbr_min": 3.2,
+    "hist_pbr_avg": 4.8,
+    "hist_pbr_max": 7.0,
+    "bps": 240.0,
+    "dps": 55.0,
+    "roe": 24.5,
+    "gross_margin": 48.5,
+    "op_margin": 22.0,
+    "debt_ratio": 28.0,
+    "capex_to_capital": 30.0,
+    "quick_ratio": 2.4,
+    "notes": "台灣 HPC 龍頭家族！AI 天璣晶片與自研 ASIC 雙引擎，毛利穩定維持在 48% 高檔。"
+  },
+  "2382": {
+    "name": "廣達",
+    "category": "成長型 AI 伺服器代工龍頭",
+    "industry": "AI 伺服器整機與機櫃組裝",
+    "method": "per",
+    "price": 290,
+    "hist_per_min": 14.0,
+    "hist_per_avg": 18.0,
+    "hist_per_max": 24.0,
+    "forward_eps": 17.5,
+    "eps_optimistic": 20.0,
+    "hist_pbr_min": 2.2,
+    "hist_pbr_avg": 3.8,
+    "hist_pbr_max": 5.5,
+    "bps": 62.0,
+    "dps": 11.0,
+    "roe": 26.0,
+    "gross_margin": 8.2,
+    "op_margin": 4.8,
+    "debt_ratio": 65.0,
+    "capex_to_capital": 42.0,
+    "quick_ratio": 1.2,
+    "notes": "輝達 GB200/NVL72 頂級伺服器組裝首選，受限組裝代工毛利率偏低，須注意負債比與應收帳款週轉。"
+  },
+  "6669": {
+    "name": "緯穎",
+    "category": "成長型白牌 AI 伺服器龍頭",
+    "industry": "美系四大 CSP 白牌伺服器整機",
+    "method": "per",
+    "price": 2150,
+    "hist_per_min": 15.0,
+    "hist_per_avg": 20.0,
+    "hist_per_max": 28.0,
+    "forward_eps": 135.0,
+    "eps_optimistic": 150.0,
+    "hist_pbr_min": 4.0,
+    "hist_pbr_avg": 6.5,
+    "hist_pbr_max": 10.0,
+    "bps": 320.0,
+    "dps": 65.0,
+    "roe": 32.0,
+    "gross_margin": 10.5,
+    "op_margin": 7.8,
+    "debt_ratio": 55.0,
+    "capex_to_capital": 48.0,
+    "quick_ratio": 1.4,
+    "notes": "純白牌雲端伺服器龍頭，客戶涵蓋微軟、Meta、AWS，直接受惠 2027 年四大 CSP 資本支出峰值。"
+  },
+  "3324": {
+    "name": "雙鴻",
+    "category": "成長型散熱模組龍頭",
+    "industry": "水冷散熱模組與水冷板",
+    "method": "per",
+    "price": 680,
+    "hist_per_min": 16.0,
+    "hist_per_avg": 22.0,
+    "hist_per_max": 30.0,
+    "forward_eps": 36.0,
+    "eps_optimistic": 42.0,
+    "hist_pbr_min": 3.8,
+    "hist_pbr_avg": 6.2,
+    "hist_pbr_max": 9.5,
+    "bps": 95.0,
+    "dps": 12.0,
+    "roe": 25.0,
+    "gross_margin": 26.5,
+    "op_margin": 14.0,
+    "debt_ratio": 50.0,
+    "capex_to_capital": 60.0,
+    "quick_ratio": 1.5,
+    "notes": "與奇鋐並列台灣水冷散熱雙雄，水冷板、CDU 與水冷接頭完整佈局。"
+  },
+  "3176": {
+    "name": "基亞",
+    "category": "地雷投機對照股",
+    "industry": "生技新藥研發",
+    "method": "per",
+    "price": 28.5,
+    "hist_per_min": 10.0,
+    "hist_per_avg": 15.0,
+    "hist_per_max": 20.0,
+    "forward_eps": -1.2,
+    "eps_optimistic": -0.5,
+    "hist_pbr_min": 1.5,
+    "hist_pbr_avg": 3.0,
+    "hist_pbr_max": 8.0,
+    "bps": 12.5,
+    "dps": 0.0,
+    "roe": -15.0,
+    "gross_margin": 15.0,
+    "op_margin": -35.0,
+    "debt_ratio": 45.0,
+    "capex_to_capital": 5.0,
+    "quick_ratio": 1.8,
+    "notes": "1121 課堂經典地雷！當年靠本夢比炒到 400~500 元，解盲失敗連爆 17 根無量跌停一字線跌回 20 幾元，嚴禁碰無獲利股票！"
+  },
+  "2498": {
+    "name": "宏達電",
+    "category": "衰退地雷對照股",
+    "industry": "VR 虛擬實境與元宇宙",
+    "method": "per",
+    "price": 43.0,
+    "hist_per_min": 12.0,
+    "hist_per_avg": 18.0,
+    "hist_per_max": 25.0,
+    "forward_eps": -3.5,
+    "eps_optimistic": -2.0,
+    "hist_pbr_min": 1.2,
+    "hist_pbr_avg": 2.2,
+    "hist_pbr_max": 4.5,
+    "bps": 24.0,
+    "dps": 0.0,
+    "roe": -18.0,
+    "gross_margin": 28.0,
+    "op_margin": -65.0,
+    "debt_ratio": 42.0,
+    "capex_to_capital": 8.0,
+    "quick_ratio": 1.5,
+    "notes": "1114/1121 課堂經典教訓！失去智慧機定價權毛利崩跌，散戶死不認輸路路攤平成貧民，跌幅逾 90%。"
+  },
+  "2451": {
+    "name": "創見",
+    "category": "資本支出不足淘汰組",
+    "industry": "記憶體模組",
+    "method": "per",
+    "price": 82.0,
+    "hist_per_min": 12.0,
+    "hist_per_avg": 15.0,
+    "hist_per_max": 18.0,
+    "forward_eps": 5.2,
+    "eps_optimistic": 6.0,
+    "hist_pbr_min": 1.1,
+    "hist_pbr_avg": 1.4,
+    "hist_pbr_max": 1.8,
+    "bps": 55.0,
+    "dps": 4.5,
+    "roe": 10.5,
+    "gross_margin": 18.5,
+    "op_margin": 9.2,
+    "debt_ratio": 22.0,
+    "capex_to_capital": 0.716,
+    "quick_ratio": 3.2,
+    "notes": "1121 課堂黑板手算淘汰！資本支出佔股本僅 0.716%（遠低於 40% 門檻），成熟期無擴產大單，淘汰！"
+  },
+  "8114": {
+    "name": "振樺電",
+    "category": "資本支出不足淘汰組",
+    "industry": "POS 機與工業電腦",
+    "method": "per",
+    "price": 185.0,
+    "hist_per_min": 14.0,
+    "hist_per_avg": 17.5,
+    "hist_per_max": 22.0,
+    "forward_eps": 10.5,
+    "eps_optimistic": 12.0,
+    "hist_pbr_min": 2.2,
+    "hist_pbr_avg": 3.2,
+    "hist_pbr_max": 4.5,
+    "bps": 52.0,
+    "dps": 6.5,
+    "roe": 19.5,
+    "gross_margin": 38.0,
+    "op_margin": 15.2,
+    "debt_ratio": 38.0,
+    "capex_to_capital": 23.83,
+    "quick_ratio": 1.7,
+    "notes": "1121 課堂黑板手算淘汰！資本支出佔股本 23.83%（未達 40% 門檻），淘汰。"
+  },
+  "6442": {
+    "name": "光聖",
+    "category": "資本支出不足淘汰組",
+    "industry": "光通訊模組",
+    "method": "per",
+    "price": 380.0,
+    "hist_per_min": 15.0,
+    "hist_per_avg": 22.0,
+    "hist_per_max": 32.0,
+    "forward_eps": 14.0,
+    "eps_optimistic": 16.5,
+    "hist_pbr_min": 3.5,
+    "hist_pbr_avg": 6.5,
+    "hist_pbr_max": 10.5,
+    "bps": 45.0,
+    "dps": 4.5,
+    "roe": 25.0,
+    "gross_margin": 42.0,
+    "op_margin": 22.0,
+    "debt_ratio": 40.0,
+    "capex_to_capital": 18.45,
+    "quick_ratio": 1.5,
+    "notes": "1121 課堂黑板手算淘汰！資本支出佔股本 18.45%（未達 40% 門檻），淘汰。"
+  }
+};
+        let activeStockKey = "2330";
+        let activeStockData = STOCKS_DATABASE["2330"];
+
+        function selectStock(ticker) {
+            document.getElementById('calcStockInput').value = ticker;
+            executeValuation();
+        }
+
+        function autoSuggestStock() {
+            const val = document.getElementById('calcStockInput').value.trim();
+            if (STOCKS_DATABASE[val]) {
+                executeValuation();
+            }
+        }
+
+        function executeValuation() {
+            const inputVal = document.getElementById('calcStockInput').value.trim().toLowerCase();
+            if (!inputVal) return;
+
+            let foundKey = null;
+            // 匹配代號或名稱
+            for (let k in STOCKS_DATABASE) {
+                if (k.toLowerCase() === inputVal || STOCKS_DATABASE[k].name.toLowerCase().includes(inputVal)) {
+                    foundKey = k;
+                    break;
+                }
+            }
+
+            if (foundKey) {
+                activeStockKey = foundKey;
+                activeStockData = JSON.parse(JSON.stringify(STOCKS_DATABASE[foundKey]));
+                renderValuation(activeStockData);
+            } else {
+                // 若輸入不在預設資料庫中的自訂個股，給出預設樣板讓使用者即時微調手算
+                activeStockKey = inputVal;
+                activeStockData = {
+                    name: "自訂標的 (" + inputVal + ")",
+                    category: "自訂檢驗",
+                    industry: "一般上市櫃公司",
+                    method: "per",
+                    price: 100.0,
+                    hist_per_min: 15.0,
+                    hist_per_avg: 20.0,
+                    hist_per_max: 25.0,
+                    forward_eps: 6.0,
+                    eps_optimistic: 7.0,
+                    hist_pbr_min: 1.2,
+                    hist_pbr_avg: 1.8,
+                    hist_pbr_max: 2.5,
+                    bps: 50.0,
+                    dps: 4.0,
+                    roe: 16.0,
+                    gross_margin: 42.0,
+                    op_margin: 22.0,
+                    debt_ratio: 35.0,
+                    capex_to_capital: 45.0,
+                    quick_ratio: 1.8,
+                    notes: "此為自訂標的！您可以直接在右下角『手動修改參數』輸入這檔股票的預估 EPS、每股淨值與歷史 PER/PBR，系統會即時為您精算！"
+                };
+                renderValuation(activeStockData);
+            }
+
+            document.getElementById('calcResultGrid').style.display = 'grid';
+            document.getElementById('calcResultGrid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderValuation(data) {
+            // 標題與現價
+            document.getElementById('resStockTitle').innerText = activeStockKey + " " + data.name;
+            document.getElementById('resIndustryTag').innerText = data.industry + " · " + data.category;
+            document.getElementById('resCurrentPrice').innerText = data.price.toLocaleString() + " 元";
+            document.getElementById('resTeacherNotes').innerText = data.notes;
+
+            // 確定模型
+            let method = document.getElementById('calcMethodSelect').value;
+            if (method === 'auto') {
+                method = data.method;
+            }
+
+            let cheap = 0, fair = 0, exp = 0;
+            let forwardTarget = 0, upside = 0;
+
+            if (method === 'per') {
+                document.getElementById('resModelBadge').innerHTML = "📈 採用成大正統模型：【本益比評價法 (PER)】（以未來預估 EPS × 歷年加權最低/平均/最高 PER）";
+                cheap = Math.round(data.forward_eps * data.hist_per_min * 10) / 10;
+                fair = Math.round(data.forward_eps * data.hist_per_avg * 10) / 10;
+                exp = Math.round(data.forward_eps * data.hist_per_max * 10) / 10;
+                forwardTarget = fair;
+                upside = Math.round(((fair - data.price) / data.price) * 1000) / 10;
+
+                document.getElementById('resForwardTag').innerText = "2027 年法人預估";
+                document.getElementById('resForwardEPS').innerText = data.forward_eps + " 元";
+                document.getElementById('resForwardEpsDesc').innerText = "未來預估 EPS";
+                document.getElementById('resForwardMultiple').innerText = data.hist_per_avg + " 倍";
+
+                document.getElementById('resCheapSub').innerText = "最低 " + data.hist_per_min + " 倍 PER 送分題";
+                document.getElementById('resFairSub').innerText = "加權平均 " + data.hist_per_avg + " 倍 PER";
+                document.getElementById('resExpSub').innerText = "最高 " + data.hist_per_max + " 倍 PER 停利";
+            } else if (method === 'pbr') {
+                document.getElementById('resModelBadge').innerHTML = "🚢 採用成大正統模型：【股價淨值比法 (PBR)】（景氣循環股以每股淨值 BPS × 歷年加權平均 PBR）";
+                cheap = Math.round(data.bps * data.hist_pbr_min * 10) / 10;
+                fair = Math.round(data.bps * data.hist_pbr_avg * 10) / 10;
+                exp = Math.round(data.bps * data.hist_pbr_max * 10) / 10;
+                forwardTarget = fair;
+                upside = Math.round(((fair - data.price) / data.price) * 1000) / 10;
+
+                document.getElementById('resForwardTag').innerText = "加權 PBR 估值";
+                document.getElementById('resForwardEPS').innerText = data.bps + " 元";
+                document.getElementById('resForwardEpsDesc').innerText = "每股淨值 (BPS)";
+                document.getElementById('resForwardMultiple').innerText = data.hist_pbr_avg + " 倍 PBR";
+
+                document.getElementById('resCheapSub').innerText = "最低 " + data.hist_pbr_min + " 倍 PBR 便宜價";
+                document.getElementById('resFairSub').innerText = "平均 " + data.hist_pbr_avg + " 倍 PBR 合理價";
+                document.getElementById('resExpSub').innerText = "最高 " + data.hist_pbr_max + " 倍 PBR 昂貴價";
+            } else if (method === 'yield') {
+                document.getElementById('resModelBadge').innerHTML = "💰 採用成大正統模型：【股息殖利率換算法】（現金股利 ÷ 殖利率基準，常態 6% / 恐慌 7~10%）";
+                cheap = Math.round((data.dps / 0.08) * 10) / 10; // 8% 恐慌買點
+                fair = Math.round((data.dps / 0.06) * 10) / 10;  // 6% 常態合理價
+                exp = Math.round((data.dps / 0.045) * 10) / 10; // 4.5% 昂貴價
+                forwardTarget = fair;
+                upside = Math.round(((fair - data.price) / data.price) * 1000) / 10;
+
+                document.getElementById('resForwardTag').innerText = "6% 殖利率基準";
+                document.getElementById('resForwardEPS').innerText = data.dps + " 元";
+                document.getElementById('resForwardEpsDesc').innerText = "預估現金股利";
+                document.getElementById('resForwardMultiple').innerText = "6.0 %";
+
+                document.getElementById('resCheapSub').innerText = "殖利率 8% 便宜價";
+                document.getElementById('resFairSub').innerText = "殖利率 6% 合理價";
+                document.getElementById('resExpSub').innerText = "殖利率 4.5% 昂貴價";
+            }
+
+            document.getElementById('resCheapPrice').innerText = cheap.toLocaleString() + " 元";
+            document.getElementById('resFairPrice').innerText = fair.toLocaleString() + " 元";
+            document.getElementById('resExpPrice').innerText = exp.toLocaleString() + " 元";
+            document.getElementById('resForwardTarget').innerText = forwardTarget.toLocaleString() + " 元";
+            
+            const upElem = document.getElementById('resUpsidePot');
+            if (upside >= 0) {
+                upElem.innerText = "相較現價潛在空間：+" + upside + "%";
+                upElem.style.color = "#059669";
+            } else {
+                upElem.innerText = "相較現價已偏高：" + upside + "%";
+                upElem.style.color = "#dc2626";
+            }
+
+            // 渲染右側 7 大好股票檢驗
+            render7Checks(data);
+
+            // 更新自訂微調輸入框預設值
+            document.getElementById('custEPS').value = data.forward_eps;
+            document.getElementById('custBPS').value = data.bps;
+            document.getElementById('custMinMult').value = method === 'pbr' ? data.hist_pbr_min : data.hist_per_min;
+            document.getElementById('custAvgMult').value = method === 'pbr' ? data.hist_pbr_avg : data.hist_per_avg;
+            document.getElementById('custMaxMult').value = method === 'pbr' ? data.hist_pbr_max : data.hist_per_max;
+        }
+
+        function render7Checks(data) {
+            const container = document.getElementById('checkListContainer');
+            let passedCount = 0;
+
+            const checks = [
+                {
+                    name: "1. 營業毛利率 > 40% (技術定價權)",
+                    val: data.gross_margin + "%",
+                    pass: data.gross_margin >= 40.0,
+                    crit: ">= 40%"
+                },
+                {
+                    name: "2. 資本支出佔股本 > 40% (擴產信心)",
+                    val: data.capex_to_capital + "%",
+                    pass: data.capex_to_capital >= 40.0,
+                    crit: ">= 40%"
+                },
+                {
+                    name: "3. ROE 股東權益報酬率 > 15%",
+                    val: data.roe + "%",
+                    pass: data.roe >= 15.0,
+                    crit: ">= 15%"
+                },
+                {
+                    name: "4. 負債比率 < 50% (防債務暴雷)",
+                    val: data.debt_ratio + "%",
+                    pass: data.debt_ratio <= 50.0,
+                    crit: "<= 50%"
+                },
+                {
+                    name: "5. 速動比率 > 1.5 (安全償債防禦線)",
+                    val: data.quick_ratio + " 倍",
+                    pass: data.quick_ratio >= 1.5,
+                    crit: ">= 1.5"
+                },
+                {
+                    name: "6. 營業利益率本業高速成長",
+                    val: data.op_margin + "%",
+                    pass: data.op_margin >= 15.0,
+                    crit: "本業獲利穩健"
+                },
+                {
+                    name: "7. 拒絕本夢比 (預估 EPS > 0)",
+                    val: data.forward_eps + " 元",
+                    pass: data.forward_eps > 0,
+                    crit: "EPS 為正值"
+                }
+            ];
+
+            let html = "";
+            checks.forEach(c => {
+                if (c.pass) passedCount++;
+                html += '<div class="check-item">' +
+                    '<span><strong>' + c.name + '</strong><br><small style="color:#64748b;">標準: ' + c.crit + ' · 實績: ' + c.val + '</small></span>' +
+                    '<span class="' + (c.pass ? 'check-status-pass' : 'check-status-warn') + '">' + (c.pass ? '✅ 通過' : '⚠️ 未達標') + '</span>' +
+                    '</div>';
+            });
+
+            container.innerHTML = html;
+            const badge = document.getElementById('resPassBadge');
+            badge.innerText = passedCount + " / 7 項通過";
+            if (passedCount >= 6) {
+                badge.style.background = "#ecfdf5";
+                badge.style.color = "#065f46";
+                badge.style.borderColor = "#a7f3d0";
+            } else if (passedCount >= 4) {
+                badge.style.background = "#fefce8";
+                badge.style.color = "#854d0e";
+                badge.style.borderColor = "#fef08a";
+            } else {
+                badge.style.background = "#fee2e2";
+                badge.style.color = "#991b1b";
+                badge.style.borderColor = "#fecaca";
+            }
+        }
+
+        function recalcWithCustom() {
+            const eps = parseFloat(document.getElementById('custEPS').value) || activeStockData.forward_eps;
+            const bps = parseFloat(document.getElementById('custBPS').value) || activeStockData.bps;
+            const minM = parseFloat(document.getElementById('custMinMult').value) || 15.0;
+            const avgM = parseFloat(document.getElementById('custAvgMult').value) || 20.0;
+            const maxM = parseFloat(document.getElementById('custMaxMult').value) || 25.0;
+
+            let method = document.getElementById('calcMethodSelect').value;
+            if (method === 'auto') method = activeStockData.method;
+
+            let baseVal = (method === 'pbr') ? bps : eps;
+            let cheap = Math.round(baseVal * minM * 10) / 10;
+            let fair = Math.round(baseVal * avgM * 10) / 10;
+            let exp = Math.round(baseVal * maxM * 10) / 10;
+            let upside = Math.round(((fair - activeStockData.price) / activeStockData.price) * 1000) / 10;
+
+            document.getElementById('resCheapPrice').innerText = cheap.toLocaleString() + " 元";
+            document.getElementById('resFairPrice').innerText = fair.toLocaleString() + " 元";
+            document.getElementById('resExpPrice').innerText = exp.toLocaleString() + " 元";
+            document.getElementById('resForwardTarget').innerText = fair.toLocaleString() + " 元";
+            
+            const upElem = document.getElementById('resUpsidePot');
+            if (upside >= 0) {
+                upElem.innerText = "微調後潛在空間：+" + upside + "%";
+                upElem.style.color = "#059669";
+            } else {
+                upElem.innerText = "微調後已偏高：" + upside + "%";
+                upElem.style.color = "#dc2626";
+            }
+        }
+
+        function recalculatePrice() {
+            renderValuation(activeStockData);
+        }
+
+        function askAssistantAboutCurrentStock() {
+            const q = "請助教針對 " + activeStockKey + " " + activeStockData.name + "，以課堂三大估價法詳細解說其便宜價、合理價、昂貴價，以及 2027 年目標價的推算邏輯？";
+            document.getElementById('userInput').value = q;
+            sendMessage();
+            const chatBox = document.querySelector('.chat-card');
+            if (chatBox) {
+                chatBox.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
     </script>
 </body>
 </html>
